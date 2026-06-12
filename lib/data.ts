@@ -23,9 +23,9 @@ export function formatCurrency(amount: number): string {
 
 // 2. High-Fidelity Mock Data
 export const MOCK_CATEGORIES = [
-  { id: "c1", name: "AI Tools", slug: "ai-tools", image: "https://images.unsplash.com/photo-1677442136019-21780efad99a?w=400&q=80" },
-  { id: "c2", name: "Streaming", slug: "streaming", image: "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=400&q=80" },
-  { id: "c3", name: "Software & Dev", slug: "software-dev", image: "https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=400&q=80" }
+  { id: "c1000000-0000-0000-0000-000000000001", name: "AI Tools", slug: "ai-tools", image: "https://images.unsplash.com/photo-1677442136019-21780efad99a?w=400&q=80" },
+  { id: "c2000000-0000-0000-0000-000000000002", name: "Streaming", slug: "streaming", image: "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=400&q=80" },
+  { id: "c3000000-0000-0000-0000-000000000003", name: "Software & Dev", slug: "software-dev", image: "https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=400&q=80" }
 ]
 
 export interface ProductType {
@@ -43,12 +43,12 @@ export interface ProductType {
 
 export const MOCK_PRODUCTS: ProductType[] = [
   {
-    id: "p1",
+    id: "p1000000-0000-0000-0000-000000000001",
     title: "ChatGPT Plus Premium",
     description: "Access GPT-4, DALL-E, and advanced data analysis tools. Direct delivery with shared or private options.",
     price: 65.000,
     stock_count: 15,
-    category_id: "c1",
+    category_id: "c1000000-0000-0000-0000-000000000001",
     category: { name: "AI Tools", slug: "ai-tools" },
     is_active: true,
     features: [
@@ -61,12 +61,12 @@ export const MOCK_PRODUCTS: ProductType[] = [
     badge: "Most Popular"
   },
   {
-    id: "p2",
+    id: "p2000000-0000-0000-0000-000000000002",
     title: "Midjourney Pro Plan",
     description: "Generate breathtaking images with the world's leading AI art creator. Unlimited relaxed GPU hours.",
     price: 95.000,
     stock_count: 3,
-    category_id: "c1",
+    category_id: "c1000000-0000-0000-0000-000000000001",
     category: { name: "AI Tools", slug: "ai-tools" },
     is_active: true,
     features: [
@@ -78,12 +78,12 @@ export const MOCK_PRODUCTS: ProductType[] = [
     ]
   },
   {
-    id: "p3",
+    id: "p3000000-0000-0000-0000-000000000003",
     title: "Netflix Premium 4K",
     description: "Stream unlimited movies and TV shows in 4K Ultra HD. 4 concurrent screens supported.",
     price: 15.000,
     stock_count: 8,
-    category_id: "c2",
+    category_id: "c2000000-0000-0000-0000-000000000002",
     category: { name: "Streaming", slug: "streaming" },
     is_active: true,
     features: [
@@ -96,12 +96,12 @@ export const MOCK_PRODUCTS: ProductType[] = [
     badge: "Best Value"
   },
   {
-    id: "p4",
+    id: "p4000000-0000-0000-0000-000000000004",
     title: "Spotify Premium Individual",
     description: "Listen to music without ad interruptions, download tracks for offline playing, and high quality audio.",
     price: 8.500,
     stock_count: 22,
-    category_id: "c2",
+    category_id: "c2000000-0000-0000-0000-000000000002",
     category: { name: "Streaming", slug: "streaming" },
     is_active: true,
     features: [
@@ -113,12 +113,12 @@ export const MOCK_PRODUCTS: ProductType[] = [
     ]
   },
   {
-    id: "p5",
+    id: "p5000000-0000-0000-0000-000000000005",
     title: "Canva Pro Annual",
     description: "Design anything like a professional. Millions of premium templates, photos, and fonts.",
     price: 45.000,
     stock_count: 12,
-    category_id: "c3",
+    category_id: "c3000000-0000-0000-0000-000000000003",
     category: { name: "Software & Dev", slug: "software-dev" },
     is_active: true,
     features: [
@@ -130,12 +130,12 @@ export const MOCK_PRODUCTS: ProductType[] = [
     ]
   },
   {
-    id: "p6",
+    id: "p6000000-0000-0000-0000-000000000006",
     title: "YouTube Premium 1-Month",
     description: "Watch YouTube without ads, play video in background, and download videos to play offline.",
     price: 9.000,
     stock_count: 19,
-    category_id: "c2",
+    category_id: "c2000000-0000-0000-0000-000000000002",
     category: { name: "Streaming", slug: "streaming" },
     is_active: true,
     features: [
