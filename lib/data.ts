@@ -5,8 +5,10 @@ export const isSupabaseConfigured = () => {
   return (
     url &&
     url !== "https://your-project-id.supabase.co" &&
+    url.includes(".supabase.co") &&
     key &&
-    key.length > 50
+    key !== "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." &&
+    (key.startsWith("eyJ") || key.startsWith("sb_publishable_"))
   )
 }
 
