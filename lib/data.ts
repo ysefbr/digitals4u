@@ -43,7 +43,7 @@ export interface ProductType {
 
 export const MOCK_PRODUCTS: ProductType[] = [
   {
-    id: "p1000000-0000-0000-0000-000000000001",
+    id: "11000000-0000-0000-0000-000000000001",
     title: "ChatGPT Plus Premium",
     description: "Access GPT-4, DALL-E, and advanced data analysis tools. Direct delivery with shared or private options.",
     price: 65.000,
@@ -61,7 +61,7 @@ export const MOCK_PRODUCTS: ProductType[] = [
     badge: "Most Popular"
   },
   {
-    id: "p2000000-0000-0000-0000-000000000002",
+    id: "22000000-0000-0000-0000-000000000002",
     title: "Midjourney Pro Plan",
     description: "Generate breathtaking images with the world's leading AI art creator. Unlimited relaxed GPU hours.",
     price: 95.000,
@@ -78,7 +78,7 @@ export const MOCK_PRODUCTS: ProductType[] = [
     ]
   },
   {
-    id: "p3000000-0000-0000-0000-000000000003",
+    id: "33000000-0000-0000-0000-000000000003",
     title: "Netflix Premium 4K",
     description: "Stream unlimited movies and TV shows in 4K Ultra HD. 4 concurrent screens supported.",
     price: 15.000,
@@ -96,7 +96,7 @@ export const MOCK_PRODUCTS: ProductType[] = [
     badge: "Best Value"
   },
   {
-    id: "p4000000-0000-0000-0000-000000000004",
+    id: "44000000-0000-0000-0000-000000000004",
     title: "Spotify Premium Individual",
     description: "Listen to music without ad interruptions, download tracks for offline playing, and high quality audio.",
     price: 8.500,
@@ -113,7 +113,7 @@ export const MOCK_PRODUCTS: ProductType[] = [
     ]
   },
   {
-    id: "p5000000-0000-0000-0000-000000000005",
+    id: "55000000-0000-0000-0000-000000000005",
     title: "Canva Pro Annual",
     description: "Design anything like a professional. Millions of premium templates, photos, and fonts.",
     price: 45.000,
@@ -130,7 +130,7 @@ export const MOCK_PRODUCTS: ProductType[] = [
     ]
   },
   {
-    id: "p6000000-0000-0000-0000-000000000006",
+    id: "66000000-0000-0000-0000-000000000006",
     title: "YouTube Premium 1-Month",
     description: "Watch YouTube without ads, play video in background, and download videos to play offline.",
     price: 9.000,

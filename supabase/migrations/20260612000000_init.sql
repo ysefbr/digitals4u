@@ -266,10 +266,10 @@ ON CONFLICT (id) DO NOTHING;
 -- Seed Products
 INSERT INTO public.products (id, title, description, price, stock_count, category_id, is_active)
 VALUES
-  ('p1000000-0000-0000-0000-000000000001'::uuid, 'ChatGPT Plus Premium', 'Access GPT-4, DALL-E, and advanced data analysis tools. Direct delivery with shared or private options.', 65.00, 15, 'c1000000-0000-0000-0000-000000000001'::uuid, true),
-  ('p2000000-0000-0000-0000-000000000002'::uuid, 'Midjourney Pro Plan', 'Generate breathtaking images with the world''s leading AI art creator. Unlimited relaxed GPU hours.', 95.00, 3, 'c1000000-0000-0000-0000-000000000001'::uuid, true),
-  ('p3000000-0000-0000-0000-000000000003'::uuid, 'Netflix Premium 4K', 'Stream unlimited movies and TV shows in 4K Ultra HD. 4 concurrent screens supported.', 15.00, 8, 'c2000000-0000-0000-0000-000000000002'::uuid, true),
-  ('p4000000-0000-0000-0000-000000000004'::uuid, 'Spotify Premium Individual', 'Listen to music without ad interruptions, download tracks for offline playing, and high quality audio.', 8.50, 22, 'c2000000-0000-0000-0000-000000000002'::uuid, true),
-  ('p5000000-0000-0000-0000-000000000005'::uuid, 'Canva Pro Annual', 'Design anything like a professional. Millions of premium templates, photos, and fonts.', 45.00, 12, 'c3000000-0000-0000-0000-000000000003'::uuid, true),
-  ('p6000000-0000-0000-0000-000000000006'::uuid, 'YouTube Premium 1-Month', 'Watch YouTube without ads, play video in background, and download videos to play offline.', 9.00, 19, 'c2000000-0000-0000-0000-000000000002'::uuid, true)
+  ('11000000-0000-0000-0000-000000000001'::uuid, 'ChatGPT Plus Premium', 'Access GPT-4, DALL-E, and advanced data analysis tools. Direct delivery with shared or private options.', 65.00, 15, 'c1000000-0000-0000-0000-000000000001'::uuid, true),
+  ('22000000-0000-0000-0000-000000000002'::uuid, 'Midjourney Pro Plan', 'Generate breathtaking images with the world''s leading AI art creator. Unlimited relaxed GPU hours.', 95.00, 3, 'c1000000-0000-0000-0000-000000000001'::uuid, true),
+  ('33000000-0000-0000-0000-000000000003'::uuid, 'Netflix Premium 4K', 'Stream unlimited movies and TV shows in 4K Ultra HD. 4 concurrent screens supported.', 15.00, 8, 'c2000000-0000-0000-0000-000000000002'::uuid, true),
+  ('44000000-0000-0000-0000-000000000004'::uuid, 'Spotify Premium Individual', 'Listen to music without ad interruptions, download tracks for offline playing, and high quality audio.', 8.50, 22, 'c2000000-0000-0000-0000-000000000002'::uuid, true),
+  ('55000000-0000-0000-0000-000000000005'::uuid, 'Canva Pro Annual', 'Design anything like a professional. Millions of premium templates, photos, and fonts.', 45.00, 12, 'c3000000-0000-0000-0000-000000000003'::uuid, true),
+  ('66000000-0000-0000-0000-000000000006'::uuid, 'YouTube Premium 1-Month', 'Watch YouTube without ads, play video in background, and download videos to play offline.', 9.00, 19, 'c2000000-0000-0000-0000-000000000002'::uuid, true)
 ON CONFLICT (id) DO NOTHING;
