@@ -4,6 +4,14 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- 1. Create Tables
 
+DROP TABLE IF EXISTS public.users CASCADE;
+DROP TABLE IF EXISTS public.categories CASCADE;
+DROP TABLE IF EXISTS public.products CASCADE;
+DROP TABLE IF EXISTS public.orders CASCADE;
+DROP TABLE IF EXISTS public.order_items CASCADE;
+DROP TABLE IF EXISTS public.secure_vault CASCADE;
+DROP TABLE IF EXISTS public.settings CASCADE;
+
 -- Profile/Users table extending Supabase Auth
 CREATE TABLE public.users (
   id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
