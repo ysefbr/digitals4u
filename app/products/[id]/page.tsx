@@ -97,6 +97,7 @@ export default async function ProductDetailsPage({ params }: ProductPageProps) {
                     src={product.image}
                     alt={product.title}
                     fill
+                    unoptimized={product.image.toLowerCase().endsWith('.gif')}
                     className="object-cover"
                     priority
                   />

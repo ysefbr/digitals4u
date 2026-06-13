@@ -182,6 +182,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                           src={product.image}
                           alt={product.title}
                           fill
+                          unoptimized={product.image.toLowerCase().endsWith('.gif')}
                           className="object-cover transition-transform duration-700 group-hover:scale-110"
                         />
                       </div>

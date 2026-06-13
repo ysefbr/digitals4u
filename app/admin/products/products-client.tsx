@@ -290,20 +290,40 @@ export function ProductsClient({ initialProducts, categories }: ProductsClientPr
 
             <div className="space-y-1.5">
               <Label className="text-white text-xs font-semibold">
-                Product Image
+                Product Image (JPEG, PNG, GIF)
               </Label>
               <div className="flex items-center gap-3">
                 {imageUrl && !imageFile && (
-                  <img src={imageUrl} alt="Preview" className="size-10 rounded-md object-cover border border-border" />
+                  <div className="relative group">
+                    <img src={imageUrl} alt="Preview" className="size-10 rounded-md object-cover border border-border" />
+                    <button
+                      type="button"
+                      onClick={() => setImageUrl("")}
+                      title="Remove image"
+                      className="absolute -top-1.5 -right-1.5 size-4 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                    >
+                      <X className="size-2.5" />
+                    </button>
+                  </div>
                 )}
                 {imageFile && (
-                  <div className="size-10 rounded-md bg-primary/20 border border-primary flex items-center justify-center">
-                    <ImageIcon className="size-5 text-primary" />
+                  <div className="relative group">
+                    <div className="size-10 rounded-md bg-primary/20 border border-primary flex items-center justify-center">
+                      <ImageIcon className="size-5 text-primary" />
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setImageFile(null)}
+                      title="Remove selected file"
+                      className="absolute -top-1.5 -right-1.5 size-4 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                    >
+                      <X className="size-2.5" />
+                    </button>
                   </div>
                 )}
                 <Input
                   type="file"
-                  accept="image/*"
+                  accept="image/jpeg, image/png, image/gif, image/webp"
                   onChange={(e) => {
                     if (e.target.files && e.target.files[0]) {
                       setImageFile(e.target.files[0])
