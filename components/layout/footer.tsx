@@ -22,9 +22,6 @@ export function Footer() {
             <Link href="/catalog" className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200">
               Catalog
             </Link>
-            <Link href="/portal" className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200">
-              Portal
-            </Link>
             <Link href="/terms" className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200">
               Terms
             </Link>

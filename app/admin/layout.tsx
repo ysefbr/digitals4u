@@ -7,8 +7,6 @@ import {
   ListOrdered,
   Settings,
   LogOut,
-  ChevronRight,
-  ExternalLink,
   ShieldCheck,
 } from "lucide-react"
 
@@ -70,15 +68,6 @@ export default function AdminLayout({
 
         {/* Footer controls */}
         <div className="p-4 border-t border-border/50 flex flex-col gap-2.5">
-          <Link
-            href="/portal"
-            className="flex items-center justify-between px-3 py-2 rounded-xl text-xs text-muted-foreground hover:text-white transition-colors"
-          >
-            <span className="flex items-center gap-2">
-              <ExternalLink className="size-3.5" /> Customer Portal
-            </span>
-            <ChevronRight className="size-3" />
-          </Link>
 
           <form action={signOutAction} className="w-full">
             <button

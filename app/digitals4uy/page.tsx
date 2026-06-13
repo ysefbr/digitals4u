@@ -8,22 +8,19 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
-import { ShieldCheck, Loader2, AlertCircle, KeyRound } from "lucide-react"
+import { ShieldCheck, Loader2, AlertCircle } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 
 export default function LoginPage() {
   const router = useRouter()
-  const [activeTab, setActiveTab] = React.useState<"login" | "signup">("login")
   const [loading, setLoading] = React.useState(false)
   const [error, setError] = React.useState<string | null>(null)
-  const [message, setMessage] = React.useState<string | null>(null)
 
   const handleAuth = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
     setError(null)
-    setMessage(null)
 
     const formData = new FormData(e.currentTarget)
     const email = formData.get("email") as string
@@ -44,12 +41,10 @@ export default function LoginPage() {
     // Fallback if Supabase is not configured
     if (!isSupabaseConfigured()) {
       console.log("Supabase unconfigured. Simulating successful login for:", email)
-      // Save mock session locally to bypass portal server check
       localStorage.setItem("mock-session", JSON.stringify({ email, role: "admin" }))
       
-      // Force reload or redirect to portal
       setTimeout(() => {
-        router.push("/portal")
+        router.push("/admin")
         router.refresh()
       }, 800)
       return
@@ -58,49 +53,18 @@ export default function LoginPage() {
     try {
       const supabase = createClient()
 
-      if (activeTab === "login") {
-        const { data, error: loginError } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        })
+      const { data, error: loginError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
 
-        if (loginError) {
-          setError(loginError.message)
-          setLoading(false)
-        } else if (data.user) {
-          // Success: query role
-          const { data: profile } = await supabase
-            .from("users")
-            .select("role")
-            .eq("id", data.user.id)
-            .single()
-
-          if (profile?.role === "admin") {
-            router.push("/admin")
-          } else {
-            router.push("/portal")
-          }
-          router.refresh()
-        }
-      } else {
-        const { data, error: signupError } = await supabase.auth.signUp({
-          email,
-          password,
-        })
-
-        if (signupError) {
-          setError(signupError.message)
-          setLoading(false)
-        } else if (data.user) {
-          if (data.session) {
-            setMessage("Account created and logged in! Redirecting...")
-            router.push("/portal")
-            router.refresh()
-          } else {
-            setMessage("Registration successful! Please check your email to confirm your account.")
-            setLoading(false)
-          }
-        }
+      if (loginError) {
+        setError(loginError.message)
+        setLoading(false)
+      } else if (data.user) {
+        // Always redirect to admin panel
+        router.push("/admin")
+        router.refresh()
       }
     } catch (err) {
       console.error(err)
@@ -122,40 +86,15 @@ export default function LoginPage() {
           <div className="text-center space-y-3 relative flex flex-col items-center justify-center">
             <Image src="/logo.png" alt="DigitalServices4U Logo" width={400} height={120} className="w-auto h-8 sm:h-10 object-contain" priority />
             <p className="text-xs text-muted-foreground mt-2">
-              Sign in to access your digital account vault and order logs.
+              Admin access only. Sign in to manage your store.
             </p>
           </div>
 
-          {/* Tabs */}
-          <div className="grid grid-cols-2 bg-muted/40 p-1.5 rounded-xl border border-border/40">
-            <button
-              onClick={() => {
-                setActiveTab("login")
-                setError(null)
-                setMessage(null)
-              }}
-              className={`py-2 rounded-lg text-xs font-semibold tracking-wide cursor-pointer transition-colors duration-200 ${
-                activeTab === "login"
-                  ? "bg-card text-foreground shadow-xs"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              Log In
-            </button>
-            <button
-              onClick={() => {
-                setActiveTab("signup")
-                setError(null)
-                setMessage(null)
-              }}
-              className={`py-2 rounded-lg text-xs font-semibold tracking-wide cursor-pointer transition-colors duration-200 ${
-                activeTab === "signup"
-                  ? "bg-card text-foreground shadow-xs"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              Sign Up
-            </button>
+          {/* Admin badge */}
+          <div className="flex items-center justify-center">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-semibold bg-primary/10 text-primary border border-primary/20 uppercase tracking-wider">
+              <ShieldCheck className="size-3" /> Admin Panel
+            </span>
           </div>
 
           {/* Alert logs */}
@@ -163,13 +102,6 @@ export default function LoginPage() {
             <div className="p-4 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-xs flex items-start gap-3">
               <AlertCircle className="size-4 shrink-0 mt-0.5" />
               <span>{error}</span>
-            </div>
-          )}
-
-          {message && (
-            <div className="p-4 rounded-xl bg-primary/10 border border-primary/15 text-primary text-xs flex items-start gap-3">
-              <ShieldCheck className="size-4 shrink-0 mt-0.5" />
-              <span>{message}</span>
             </div>
           )}
 
@@ -184,7 +116,7 @@ export default function LoginPage() {
                 name="email"
                 type="email"
                 required
-                placeholder="e.g. customer@example.com"
+                placeholder="admin@example.com"
                 className="bg-background border-border/50 text-sm h-10 rounded-xl focus:border-primary/40"
               />
             </div>
@@ -212,19 +144,17 @@ export default function LoginPage() {
             >
               {loading ? (
                 <>
-                  <Loader2 className="size-4 animate-spin" /> Processing...
+                  <Loader2 className="size-4 animate-spin" /> Authenticating...
                 </>
-              ) : activeTab === "login" ? (
-                "Log In"
               ) : (
-                "Create Account"
+                "Log In"
               )}
             </button>
           </form>
 
           {/* Bottom Trust */}
           <div className="flex items-center justify-center gap-2 text-[10px] text-muted-foreground border-t border-border/40 pt-4">
-            <ShieldCheck className="size-3.5 text-primary" /> Securing digital delivery vaults in Tunisia.
+            <ShieldCheck className="size-3.5 text-primary" /> Restricted access — authorized administrators only.
           </div>
         </div>
       </main>

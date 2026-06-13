@@ -38,8 +38,8 @@ export async function proxy(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) {
-      const loginUrl = new URL("/login", request.url)
-      return NextResponse.redirect(loginUrl)
+      const homeUrl = new URL("/", request.url)
+      return NextResponse.redirect(homeUrl)
     }
 
     // Query role from database
@@ -50,8 +50,8 @@ export async function proxy(request: NextRequest) {
       .single()
 
     if (error || !profile || profile.role !== "admin") {
-      const portalUrl = new URL("/portal", request.url)
-      return NextResponse.redirect(portalUrl)
+      const homeUrl = new URL("/", request.url)
+      return NextResponse.redirect(homeUrl)
     }
   }
 
