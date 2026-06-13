@@ -323,6 +323,25 @@ VALUES (
 )
 ON CONFLICT (id) DO UPDATE SET role = 'admin';
 
+-- Create corresponding identity for Supabase Auth to allow login
+INSERT INTO auth.identities (
+  id,
+  user_id,
+  identity_data,
+  provider,
+  created_at,
+  updated_at
+)
+VALUES (
+  'a1000000-0000-0000-0000-000000000001'::uuid,
+  'a1000000-0000-0000-0000-000000000001'::uuid,
+  '{"sub":"a1000000-0000-0000-0000-000000000001","email":"admin@digitals4u.com"}'::jsonb,
+  'email',
+  now(),
+  now()
+)
+ON CONFLICT DO NOTHING;
+
 -- Fix potential NULL value scan errors for standard Supabase GoTrue Auth string fields
 UPDATE auth.users
 SET
