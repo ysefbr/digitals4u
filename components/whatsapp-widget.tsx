@@ -2,8 +2,7 @@
 
 import * as React from "react"
 import { usePathname } from "next/navigation"
-import { MessageSquare, X } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { X } from "lucide-react"
 
 interface WhatsAppWidgetProps {
   phone: string
@@ -37,16 +36,16 @@ export function WhatsAppWidget({ phone, siteName = "DigitalServices4U" }: WhatsA
     <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 font-sans select-none pointer-events-none">
       {/* Tooltip Dialog */}
       {showTooltip && (
-        <div className="pointer-events-auto bg-card/90 border border-border backdrop-blur-md px-4 py-2.5 rounded-2xl shadow-2xl flex items-center gap-3 max-w-[240px] animate-in fade-in slide-in-from-bottom-4 duration-300 text-left">
+        <div className="pointer-events-auto bg-card/90 border border-border/60 backdrop-blur-xl px-4 py-2.5 rounded-2xl shadow-2xl flex items-center gap-3 max-w-[240px] animate-in fade-in slide-in-from-bottom-4 duration-300 text-left">
           <div className="space-y-0.5">
-            <span className="text-[11px] font-bold text-white block">Need Help?</span>
+            <span className="text-[11px] font-bold text-foreground block">Need Help?</span>
             <span className="text-[10px] text-muted-foreground block leading-normal">
               Chat with our team on WhatsApp for support!
             </span>
           </div>
           <button
             onClick={() => setShowTooltip(false)}
-            className="text-muted-foreground hover:text-white transition-colors cursor-pointer shrink-0"
+            className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer shrink-0"
           >
             <X className="size-3.5" />
           </button>

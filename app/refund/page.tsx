@@ -8,25 +8,26 @@ export default function RefundPolicyPage() {
       <Header />
 
       <main className="flex-1 container mx-auto px-4 py-12 sm:px-6 lg:px-8 max-w-4xl space-y-10">
-        <div className="space-y-3 border-b border-border/50 pb-6">
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">Refund Policy</h1>
+        <div className="space-y-3 border-b border-border/40 pb-6">
+          <h1 className="text-3xl sm:text-4xl font-[family-name:var(--font-heading)] font-bold tracking-tight">Refund Policy</h1>
           <p className="text-xs sm:text-sm text-muted-foreground flex items-center gap-1.5">
             <Calendar className="size-3.5" /> Last updated: June 12, 2026
           </p>
+          <div className="h-px bg-gradient-to-r from-primary/20 to-transparent max-w-[100px]" />
         </div>
 
-        <div className="space-y-6 text-sm sm:text-base text-slate-300 leading-relaxed">
+        <div className="space-y-8 text-sm sm:text-base text-muted-foreground leading-relaxed">
           <section className="space-y-3">
-            <h2 className="text-lg font-bold text-white flex items-center gap-2">
+            <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
               <Sparkles className="size-5 text-primary" /> 1. Digital Service Nature
             </h2>
             <p>
-              Due to the nature of digital goods and accounts, once details are populated and delivered to your portal, they are active and ready to use. Because they cannot be "returned," we enforce clear refund rules to avoid misuse.
+              Due to the nature of digital goods and accounts, once details are populated and delivered to your portal, they are active and ready to use. Because they cannot be &quot;returned,&quot; we enforce clear refund rules to avoid misuse.
             </p>
           </section>
 
           <section className="space-y-3">
-            <h2 className="text-lg font-bold text-white flex items-center gap-2">
+            <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
               <AlertCircle className="size-5 text-primary" /> 2. Refunding Pending Orders
             </h2>
             <p>
@@ -35,8 +36,8 @@ export default function RefundPolicyPage() {
           </section>
 
           <section className="space-y-3">
-            <h2 className="text-lg font-bold text-white flex items-center gap-2">
-              <HelpCircle className="size-5 text-primary" /> 3. Post-Delivery Warranty & Replacements
+            <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
+              <HelpCircle className="size-5 text-primary" /> 3. Post-Delivery Warranty &amp; Replacements
             </h2>
             <p>
               Once your credentials are placed in the Secure Vault, we guarantee access for the duration of the plan. If you encounter access problems:
@@ -49,7 +50,7 @@ export default function RefundPolicyPage() {
           </section>
 
           <section className="space-y-3">
-            <h2 className="text-lg font-bold text-white flex items-center gap-2">
+            <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
               <AlertCircle className="size-5 text-primary" /> 4. Non-Refundable Scenarios
             </h2>
             <p>
@@ -58,8 +59,8 @@ export default function RefundPolicyPage() {
           </section>
         </div>
 
-        <div className="bg-card/25 rounded-2xl border border-border p-6 mt-8 space-y-2">
-          <h3 className="text-base font-bold text-white">Need a Refund?</h3>
+        <div className="bg-card/20 rounded-2xl border border-border/50 p-6 mt-8 space-y-2">
+          <h3 className="text-base font-bold text-foreground">Need a Refund?</h3>
           <p className="text-xs text-muted-foreground">
             Contact us directly on WhatsApp with your Order ID and payment receipt. We handle every dispute personally.
           </p>

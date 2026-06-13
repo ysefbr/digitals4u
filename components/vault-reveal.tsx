@@ -47,13 +47,13 @@ export function VaultReveal({ orderId }: VaultRevealProps) {
     <div className="space-y-4">
       {/* Locked State */}
       {!revealed && (
-        <div className="p-5 rounded-xl border border-border bg-background/50 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="p-5 rounded-xl border border-border/50 bg-card/20 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3 text-left">
             <div className="size-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
               <Lock className="size-5" />
             </div>
             <div>
-              <h4 className="text-xs font-bold text-white uppercase tracking-wider">Secure Credentials Vault</h4>
+              <h4 className="text-xs font-bold text-foreground uppercase tracking-wider">Secure Credentials Vault</h4>
               <p className="font-mono text-xs text-muted-foreground mt-1 tracking-widest">
                 ••••••••••••••••••••••••••••
               </p>
@@ -65,10 +65,10 @@ export function VaultReveal({ orderId }: VaultRevealProps) {
             onClick={handleReveal}
             disabled={loading}
             size="sm"
-            className="gap-2 w-full sm:w-auto cursor-pointer select-none"
+            className="gap-2 w-full sm:w-auto cursor-pointer select-none shadow-lg shadow-primary/10"
           >
             {loading ? (
-              <>
+               <>
                 <Loader2 className="size-3.5 animate-spin" /> Unlocking...
               </>
             ) : (
@@ -82,7 +82,7 @@ export function VaultReveal({ orderId }: VaultRevealProps) {
 
       {/* Error alert */}
       {error && (
-        <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs flex items-start gap-3">
+        <div className="p-4 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-xs flex items-start gap-3">
           <AlertCircle className="size-4 shrink-0 mt-0.5" />
           <div className="space-y-1">
             <span className="font-bold">Vault Locked: </span>
@@ -100,7 +100,7 @@ export function VaultReveal({ orderId }: VaultRevealProps) {
             </div>
             <button
               onClick={handleCopy}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-muted border border-border/80 hover:bg-muted/80 text-xs text-slate-300 hover:text-white transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-card/40 border border-border/60 hover:bg-card/60 text-xs text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
             >
               {copied ? (
                 <>
@@ -114,12 +114,12 @@ export function VaultReveal({ orderId }: VaultRevealProps) {
             </button>
           </div>
 
-          <pre className="p-4 rounded-lg bg-background/80 border border-border/60 text-xs text-slate-200 font-mono whitespace-pre-wrap leading-relaxed overflow-x-auto select-all">
+          <pre className="p-4 rounded-lg bg-background/60 border border-border/40 text-xs text-foreground/80 font-mono whitespace-pre-wrap leading-relaxed overflow-x-auto select-all">
             {credentials}
           </pre>
 
-          <div className="p-3 rounded-lg bg-amber-500/5 border border-amber-500/20 text-amber-400 text-[10px] sm:text-xs">
-            ⚠️ <strong>Security Notice:</strong> Do not share these credentials with anyone. For shared accounts (e.g. Netflix), please use only your designated profile. Do not attempt to modify billing or security settings.
+          <div className="p-3 rounded-lg bg-primary/10 border border-primary/20 text-primary text-[10px] sm:text-xs">
+            ⚠️ <strong className="font-semibold">Security Notice:</strong> Do not share these credentials with anyone. For shared accounts (e.g. Netflix), please use only your designated profile. Do not attempt to modify billing or security settings.
           </div>
         </div>
       )}

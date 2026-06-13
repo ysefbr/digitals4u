@@ -39,11 +39,12 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
 
       <main className="flex-1 container mx-auto px-4 py-12 sm:px-6 lg:px-8">
         {/* Banner / Title */}
-        <div className="mb-10 space-y-2">
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">Subscription Catalog</h1>
+        <div className="mb-12 space-y-3">
+          <h1 className="text-3xl sm:text-4xl font-[family-name:var(--font-heading)] font-bold tracking-tight">Subscription Catalog</h1>
           <p className="text-muted-foreground text-sm max-w-xl">
             Browse our curated marketplace of premium software, AI tools, and streaming accounts localized in TND.
           </p>
+          <div className="h-px bg-gradient-to-r from-primary/20 to-transparent max-w-xs" />
         </div>
 
         {/* Content Layout */}
@@ -60,7 +61,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                   name="q"
                   defaultValue={query}
                   placeholder="e.g. Netflix, ChatGPT..."
-                  className="bg-card/50 border-border pl-10 pr-4 h-10 rounded-xl text-sm"
+                  className="bg-card/50 border-border/50 pl-10 pr-4 h-10 rounded-xl text-sm focus:border-primary/40"
                 />
                 <Search className="absolute left-3.5 top-3 size-4 text-muted-foreground pointer-events-none" />
               </form>
@@ -76,9 +77,9 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                     ...(maxPriceVal && { maxPrice: maxPriceVal.toString() }),
                   })}`}
                   className={cn(
-                    "px-3 py-2 rounded-xl text-sm transition-colors text-left w-auto lg:w-full",
+                    "px-3 py-2 rounded-xl text-sm transition-colors duration-200 text-left w-auto lg:w-full",
                     !categorySlug
-                      ? "bg-primary/10 text-primary font-medium"
+                      ? "bg-primary/10 text-primary font-medium border border-primary/15"
                       : "text-muted-foreground hover:bg-card hover:text-foreground"
                   )}
                 >
@@ -93,9 +94,9 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                       ...(maxPriceVal && { maxPrice: maxPriceVal.toString() }),
                     })}`}
                     className={cn(
-                      "px-3 py-2 rounded-xl text-sm transition-colors text-left w-auto lg:w-full",
+                      "px-3 py-2 rounded-xl text-sm transition-colors duration-200 text-left w-auto lg:w-full",
                       categorySlug === cat.slug
-                        ? "bg-primary/10 text-primary font-medium"
+                        ? "bg-primary/10 text-primary font-medium border border-primary/15"
                         : "text-muted-foreground hover:bg-card hover:text-foreground"
                     )}
                   >
@@ -115,9 +116,9 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                     ...(query && { q: query }),
                   })}`}
                   className={cn(
-                    "px-3 py-2 rounded-xl text-sm transition-colors text-left w-auto lg:w-full",
+                    "px-3 py-2 rounded-xl text-sm transition-colors duration-200 text-left w-auto lg:w-full",
                     !maxPriceVal
-                      ? "bg-primary/10 text-primary font-medium"
+                      ? "bg-primary/10 text-primary font-medium border border-primary/15"
                       : "text-muted-foreground hover:bg-card hover:text-foreground"
                   )}
                 >
@@ -132,9 +133,9 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                       ...(query && { q: query }),
                     })}`}
                     className={cn(
-                      "px-3 py-2 rounded-xl text-sm transition-colors text-left w-auto lg:w-full",
+                      "px-3 py-2 rounded-xl text-sm transition-colors duration-200 text-left w-auto lg:w-full",
                       maxPriceVal === price
-                        ? "bg-primary/10 text-primary font-medium"
+                        ? "bg-primary/10 text-primary font-medium border border-primary/15"
                         : "text-muted-foreground hover:bg-card hover:text-foreground"
                     )}
                   >
@@ -148,15 +149,15 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
           {/* Catalog Grid */}
           <div className="flex-1">
             {products.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-20 text-center rounded-2xl border border-border border-dashed bg-card/10 backdrop-blur-sm">
+              <div className="flex flex-col items-center justify-center py-20 text-center rounded-2xl border border-border/50 border-dashed bg-card/10 backdrop-blur-sm">
                 <SlidersHorizontal className="size-10 text-muted-foreground mb-4" />
-                <h3 className="text-lg font-bold text-white mb-1">No subscriptions found</h3>
+                <h3 className="text-lg font-bold text-foreground mb-1">No subscriptions found</h3>
                 <p className="text-sm text-muted-foreground max-w-xs">
-                  We couldn't find any results matching your search filters. Try resetting your query parameters.
+                  We couldn&apos;t find any results matching your search filters. Try resetting your query parameters.
                 </p>
                 <Link
                   href="/catalog"
-                  className={buttonVariants({ variant: "outline", className: "mt-6 border-border" })}
+                  className={buttonVariants({ variant: "outline", className: "mt-6 border-border/50" })}
                 >
                   Clear All Filters
                 </Link>
@@ -166,7 +167,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                 {products.map((product) => (
                   <div
                     key={product.id}
-                    className="flex flex-col h-full rounded-2xl border border-border bg-card/45 backdrop-blur-md overflow-hidden hover:border-primary/40 transition-colors group relative"
+                    className="group flex flex-col h-full rounded-2xl border border-border/50 bg-card/40 backdrop-blur-md overflow-hidden hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 transition-all duration-500 relative"
                   >
                     {product.badge && (
                       <span className="absolute top-4 right-4 bg-primary text-primary-foreground text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full z-10">
@@ -179,7 +180,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                         <span className="text-[10px] font-bold text-primary uppercase tracking-widest">
                           {product.category.name}
                         </span>
-                        <h3 className="text-lg font-bold text-white group-hover:text-primary transition-colors line-clamp-1">
+                        <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors duration-300 line-clamp-1">
                           {product.title}
                         </h3>
                       </div>
@@ -198,7 +199,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                             Out of Stock
                           </span>
                         )}
-                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-primary/10 text-primary border border-primary/20">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-primary/8 text-primary border border-primary/15">
                           <ShieldCheck className="size-3" /> Guaranteed
                         </span>
                       </div>
@@ -206,7 +207,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                       {/* Snippet Features */}
                       <ul className="space-y-1.5 pt-1">
                         {(product.features as string[]).slice(0, 3).map((feat: string, idx: number) => (
-                          <li key={idx} className="flex items-center gap-2 text-[11px] text-slate-300">
+                          <li key={idx} className="flex items-center gap-2 text-[11px] text-muted-foreground">
                             <Check className="size-3 text-primary shrink-0" />
                             <span className="line-clamp-1">{feat}</span>
                           </li>
@@ -214,15 +215,15 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                       </ul>
                     </div>
 
-                    <div className="p-6 border-t border-border/50 bg-card/70 flex flex-col gap-4">
+                    <div className="p-6 border-t border-border/40 bg-card/50 flex flex-col gap-4">
                       <div className="flex items-baseline justify-between">
                         <span className="text-[11px] text-muted-foreground">Price</span>
-                        <span className="text-lg font-bold text-white">{formatCurrency(product.price)}</span>
+                        <span className="text-lg font-bold text-foreground">{formatCurrency(product.price)}</span>
                       </div>
 
                       <Link
                         href={`/products/${product.id}`}
-                        className={buttonVariants({ className: "w-full justify-center" })}
+                        className={buttonVariants({ className: "w-full justify-center font-semibold" })}
                       >
                         View Details
                       </Link>

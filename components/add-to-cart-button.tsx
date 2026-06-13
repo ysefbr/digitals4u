@@ -28,7 +28,7 @@ export function AddToCartButton({
 
   if (!mounted) {
     return (
-      <Button disabled={stock_count <= 0} size="lg" className="w-full justify-center h-11 font-medium">
+      <Button disabled={stock_count <= 0} size="lg" className="w-full justify-center h-11 font-semibold shadow-lg shadow-primary/15 transition-transform duration-300">
         {stock_count <= 0 ? "Out of Stock" : "Add to Cart"}
       </Button>
     )
@@ -55,7 +55,7 @@ export function AddToCartButton({
       onClick={handleAddToCart}
       disabled={isOutOfStock || isLimitReached}
       size="lg"
-      className="w-full justify-center select-none font-medium h-11 cursor-pointer"
+      className="w-full justify-center select-none font-semibold h-11 cursor-pointer shadow-lg shadow-primary/15 hover:scale-[1.02] transition-transform duration-300"
     >
       {isOutOfStock
         ? "Out of Stock"

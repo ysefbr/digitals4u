@@ -46,7 +46,7 @@ export default function CheckoutPage() {
         <Header />
         <main className="flex-1 flex flex-col items-center justify-center p-6 text-center">
           <ShoppingBag className="size-16 text-muted-foreground mb-4" />
-          <h2 className="text-2xl font-bold text-white mb-2">Your Cart is Empty</h2>
+          <h2 className="text-2xl font-[family-name:var(--font-heading)] font-bold text-foreground mb-2">Your Cart is Empty</h2>
           <p className="text-muted-foreground max-w-sm mb-6">
             You cannot checkout with an empty cart. Choose a subscription first.
           </p>
@@ -128,7 +128,7 @@ export default function CheckoutPage() {
         <div className="mb-8">
           <Link
             href="/catalog"
-            className="inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-white transition-colors"
+            className="inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-primary transition-colors duration-200"
           >
             <ArrowLeft className="size-3.5" />
             Continue Shopping
@@ -139,10 +139,10 @@ export default function CheckoutPage() {
           {/* Checkout Form (Left - Occupies 3 cols) */}
           <form
             onSubmit={handleSubmit}
-            className="lg:col-span-3 space-y-6 rounded-2xl border border-border bg-card/15 p-6 sm:p-8 backdrop-blur-md"
+            className="lg:col-span-3 space-y-6 rounded-2xl border border-border/50 bg-card/30 p-6 sm:p-8 backdrop-blur-md"
           >
             <div className="space-y-1">
-              <h1 className="text-2xl font-bold text-white">Contact & Billing Info</h1>
+              <h1 className="text-2xl font-[family-name:var(--font-heading)] font-bold text-foreground">Contact &amp; Billing Info</h1>
               <p className="text-xs text-muted-foreground">
                 Enter your details. Payments are completed manually via WhatsApp.
               </p>
@@ -157,7 +157,7 @@ export default function CheckoutPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="fullName" className="text-white text-xs font-semibold">
+                <Label htmlFor="fullName" className="text-foreground text-xs font-semibold">
                   Full Name
                 </Label>
                 <Input
@@ -165,12 +165,12 @@ export default function CheckoutPage() {
                   name="fullName"
                   required
                   placeholder="e.g. Foulen Ben Foulen"
-                  className="bg-background border-border text-sm h-10 rounded-xl"
+                  className="bg-background border-border/50 text-sm h-10 rounded-xl focus:border-primary/40"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-white text-xs font-semibold">
+                <Label htmlFor="email" className="text-foreground text-xs font-semibold">
                   Email Address
                 </Label>
                 <Input
@@ -179,14 +179,14 @@ export default function CheckoutPage() {
                   type="email"
                   required
                   placeholder="e.g. foulen@gmail.com"
-                  className="bg-background border-border text-sm h-10 rounded-xl"
+                  className="bg-background border-border/50 text-sm h-10 rounded-xl focus:border-primary/40"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="phone" className="text-white text-xs font-semibold">
+                <Label htmlFor="phone" className="text-foreground text-xs font-semibold">
                   Phone Number (WhatsApp Active)
                 </Label>
                 <Input
@@ -194,12 +194,12 @@ export default function CheckoutPage() {
                   name="phone"
                   required
                   placeholder="e.g. +216 99 123 456"
-                  className="bg-background border-border text-sm h-10 rounded-xl"
+                  className="bg-background border-border/50 text-sm h-10 rounded-xl focus:border-primary/40"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="country" className="text-white text-xs font-semibold">
+                <Label htmlFor="country" className="text-foreground text-xs font-semibold">
                   Country
                 </Label>
                 <Input
@@ -208,13 +208,13 @@ export default function CheckoutPage() {
                   required
                   defaultValue="Tunisia"
                   placeholder="e.g. Tunisia"
-                  className="bg-background border-border text-sm h-10 rounded-xl"
+                  className="bg-background border-border/50 text-sm h-10 rounded-xl focus:border-primary/40"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="notes" className="text-white text-xs font-semibold">
+              <Label htmlFor="notes" className="text-foreground text-xs font-semibold">
                 Order Notes (Optional)
               </Label>
               <textarea
@@ -222,11 +222,11 @@ export default function CheckoutPage() {
                 name="notes"
                 rows={3}
                 placeholder="Specify private profile requirements, pin preferences, or billing questions..."
-                className="w-full bg-background border border-border text-sm rounded-xl p-3 outline-none focus:border-ring focus:ring-1 focus:ring-ring text-white resize-none"
+                className="w-full bg-background border border-border/50 text-sm rounded-xl p-3 outline-none focus:border-primary/40 focus:ring-1 focus:ring-ring text-foreground resize-none"
               />
             </div>
 
-            <div className="flex items-center gap-2 text-xs text-muted-foreground bg-primary/5 border border-primary/20 rounded-xl p-4 mt-6">
+            <div className="flex items-center gap-2 text-xs text-muted-foreground bg-primary/5 border border-primary/15 rounded-xl p-4 mt-6">
               <ShieldCheck className="size-4.5 text-primary shrink-0" />
               <span>
                 By placing this order, you agree to contact support via WhatsApp to finalize the manual payment and reveal your credentials.
@@ -238,7 +238,7 @@ export default function CheckoutPage() {
               disabled={loading}
               className={buttonVariants({
                 size: "lg",
-                className: "w-full justify-center gap-2 cursor-pointer font-medium h-11 select-none",
+                className: "w-full justify-center gap-2 cursor-pointer font-semibold h-11 select-none shadow-lg shadow-primary/15",
               })}
             >
               {loading ? (
@@ -252,37 +252,37 @@ export default function CheckoutPage() {
           </form>
 
           {/* Cart Summary (Right - Occupies 2 cols) */}
-          <div className="lg:col-span-2 rounded-2xl border border-border bg-card/45 p-6 space-y-6 backdrop-blur-md">
-            <h2 className="text-lg font-bold text-white">Order Summary</h2>
+          <div className="lg:col-span-2 rounded-2xl border border-border/50 bg-card/40 p-6 space-y-6 backdrop-blur-md">
+            <h2 className="text-lg font-[family-name:var(--font-heading)] font-bold text-foreground">Order Summary</h2>
 
-            <div className="divide-y divide-border/50 max-h-80 overflow-y-auto pr-2">
+            <div className="divide-y divide-border/40 max-h-80 overflow-y-auto pr-2">
               {items.map((item) => (
                 <div key={item.id} className="py-4 flex justify-between gap-4 first:pt-0">
                   <div className="space-y-1 min-w-0">
-                    <h4 className="text-sm font-bold text-white truncate">{item.title}</h4>
+                    <h4 className="text-sm font-bold text-foreground truncate">{item.title}</h4>
                     <p className="text-xs text-muted-foreground">
                       {item.quantity} x {formatCurrency(item.price)}
                     </p>
                   </div>
-                  <span className="text-sm font-semibold text-white">
+                  <span className="text-sm font-semibold text-foreground">
                     {formatCurrency(item.price * item.quantity)}
                   </span>
                 </div>
               ))}
             </div>
 
-            <div className="border-t border-border/50 pt-4 space-y-2.5">
+            <div className="border-t border-border/40 pt-4 space-y-2.5">
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Subtotal</span>
-                <span className="font-semibold text-white">{formatCurrency(total)}</span>
+                <span className="font-semibold text-foreground">{formatCurrency(total)}</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Shipping / Setup</span>
                 <span className="text-emerald-400 font-medium">Free</span>
               </div>
-              <div className="flex justify-between items-baseline pt-2 border-t border-border/50">
-                <span className="text-sm font-bold text-white">Total</span>
-                <span className="text-xl font-extrabold text-white">{formatCurrency(total)}</span>
+              <div className="flex justify-between items-baseline pt-2 border-t border-border/40">
+                <span className="text-sm font-bold text-foreground">Total</span>
+                <span className="text-xl font-extrabold text-foreground">{formatCurrency(total)}</span>
               </div>
             </div>
           </div>

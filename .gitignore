@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Antigravity Starter Kit
+directives/
+execution/
+SKILLS/
+.tmp/
+.mcp.json
+"Antigravity Template/"

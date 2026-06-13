@@ -5,7 +5,7 @@ import { getSiteSettings } from "@/lib/data.server"
 import { createClient } from "@/lib/supabase/server"
 import { buttonVariants } from "@/components/ui/button"
 import Link from "next/link"
-import { CheckCircle2, MessageSquare, ChevronRight, ShoppingBag, ShieldCheck, ExternalLink } from "lucide-react"
+import { CheckCircle2, MessageSquare, ShoppingBag, ShieldCheck, ExternalLink } from "lucide-react"
 
 interface SuccessPageProps {
   params: Promise<{ id: string }>
@@ -117,7 +117,7 @@ export default async function OrderSuccessPage({ params, searchParams }: Success
         <Header />
         <main className="flex-1 flex flex-col items-center justify-center p-6 text-center">
           <CheckCircle2 className="size-16 text-emerald-400 mb-4" />
-          <h2 className="text-2xl font-bold text-white mb-2">Order Confirmed!</h2>
+          <h2 className="text-2xl font-[family-name:var(--font-heading)] font-bold text-foreground mb-2">Order Confirmed!</h2>
           <p className="text-muted-foreground max-w-sm mb-6">
             Your order has been submitted. We could not fetch detailed receipt statistics, but you can complete confirmation on WhatsApp directly.
           </p>
@@ -161,11 +161,11 @@ export default async function OrderSuccessPage({ params, searchParams }: Success
       <main className="flex-1 container mx-auto px-4 py-12 sm:px-6 lg:px-8 max-w-3xl space-y-8">
         {/* Top Status */}
         <div className="text-center space-y-4">
-          <div className="size-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto animate-bounce">
+          <div className="size-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto animate-float">
             <CheckCircle2 className="size-9" />
           </div>
           <div className="space-y-1">
-            <h1 className="text-2xl sm:text-4xl font-bold text-white tracking-tight">Order Placed Successfully!</h1>
+            <h1 className="text-2xl sm:text-4xl font-[family-name:var(--font-heading)] font-bold tracking-tight">Order Placed Successfully!</h1>
             <p className="text-sm text-emerald-400/80 font-medium">Order Status: {order.status}</p>
           </div>
           <p className="text-sm text-muted-foreground max-w-md mx-auto">
@@ -175,12 +175,12 @@ export default async function OrderSuccessPage({ params, searchParams }: Success
 
         {/* WhatsApp Call To Action Block */}
         <div className="rounded-2xl border border-primary/20 bg-primary/5 p-6 sm:p-8 text-center space-y-6 relative overflow-hidden">
-          <div className="absolute -top-12 -left-12 w-48 h-48 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-12 -right-12 w-48 h-48 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -top-16 -left-16 w-48 h-48 bg-primary/8 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-16 -right-16 w-48 h-48 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
 
           <div className="space-y-2 relative z-10">
-            <h2 className="text-xl sm:text-2xl font-bold text-white">Finalize Order on WhatsApp</h2>
-            <p className="text-xs sm:text-sm text-slate-300 max-w-md mx-auto">
+            <h2 className="text-xl sm:text-2xl font-[family-name:var(--font-heading)] font-bold text-foreground">Finalize Order on WhatsApp</h2>
+            <p className="text-xs sm:text-sm text-muted-foreground max-w-md mx-auto">
               Click the button below to send your Order summary to our support hotline. We will send back transfer details (D17, RunPay, Bank Transfer, Sobflous).
             </p>
           </div>
@@ -201,48 +201,48 @@ export default async function OrderSuccessPage({ params, searchParams }: Success
         </div>
 
         {/* Order Details Receipt */}
-        <div className="rounded-2xl border border-border bg-card/25 p-6 sm:p-8 space-y-6 backdrop-blur-md">
-          <h3 className="text-base font-bold text-white border-b border-border/50 pb-3">Order Receipt Details</h3>
+        <div className="rounded-2xl border border-border/50 bg-card/20 p-6 sm:p-8 space-y-6 backdrop-blur-md">
+          <h3 className="text-base font-bold text-foreground border-b border-border/40 pb-3">Order Receipt Details</h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
             <div className="space-y-1">
               <span className="text-muted-foreground block">Order ID</span>
-              <span className="font-mono text-slate-200 block truncate">{order.id}</span>
+              <span className="font-mono text-foreground/80 block truncate">{order.id}</span>
             </div>
             <div className="space-y-1">
               <span className="text-muted-foreground block">Date Placed</span>
-              <span className="text-slate-200 block">{new Date(order.created_at).toLocaleString()}</span>
+              <span className="text-foreground/80 block">{new Date(order.created_at).toLocaleString()}</span>
             </div>
             <div className="space-y-1">
               <span className="text-muted-foreground block">Customer Name</span>
-              <span className="text-slate-200 block">{order.customer_details.fullName}</span>
+              <span className="text-foreground/80 block">{order.customer_details.fullName}</span>
             </div>
             <div className="space-y-1">
               <span className="text-muted-foreground block">Phone Contact</span>
-              <span className="text-slate-200 block">{order.customer_details.phone}</span>
+              <span className="text-foreground/80 block">{order.customer_details.phone}</span>
             </div>
           </div>
 
           {/* Ordered Items List */}
-          <div className="border-t border-border/50 pt-4 space-y-3">
+          <div className="border-t border-border/40 pt-4 space-y-3">
             <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block">Subscriptions</span>
             <div className="divide-y divide-border/30">
               {items.map((item, idx) => (
                 <div key={idx} className="py-3 flex justify-between text-sm first:pt-0">
                   <div className="space-y-0.5">
-                    <span className="font-bold text-white block">{item.title}</span>
+                    <span className="font-bold text-foreground block">{item.title}</span>
                     <span className="text-xs text-muted-foreground">Quantity: {item.quantity}</span>
                   </div>
-                  <span className="font-semibold text-white">{formatCurrency(item.price_at_purchase * item.quantity)}</span>
+                  <span className="font-semibold text-foreground">{formatCurrency(item.price_at_purchase * item.quantity)}</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Total */}
-          <div className="border-t border-border/50 pt-4 flex justify-between items-baseline">
-            <span className="text-sm font-bold text-white">Total Amount</span>
-            <span className="text-2xl font-extrabold text-white">{formatCurrency(order.total_price)}</span>
+          <div className="border-t border-border/40 pt-4 flex justify-between items-baseline">
+            <span className="text-sm font-bold text-foreground">Total Amount</span>
+            <span className="text-2xl font-extrabold text-foreground">{formatCurrency(order.total_price)}</span>
           </div>
         </div>
 

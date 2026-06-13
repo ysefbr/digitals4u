@@ -126,7 +126,7 @@ export default async function CustomerPortalPage() {
       case "Cancelled":
         return "bg-rose-500/10 text-rose-400 border-rose-500/20"
       default:
-        return "bg-slate-500/10 text-slate-400 border-slate-500/20"
+        return "bg-stone-500/10 text-stone-400 border-stone-500/20"
     }
   }
 
@@ -152,15 +152,15 @@ export default async function CustomerPortalPage() {
 
       <main className="flex-1 container mx-auto px-4 py-12 sm:px-6 lg:px-8 max-w-5xl space-y-10">
         {/* Welcome Banner */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 bg-card/10 border border-border p-6 rounded-2xl relative overflow-hidden backdrop-blur-md">
-          <div className="absolute -top-12 -left-12 w-36 h-36 bg-primary/5 rounded-full blur-[60px] pointer-events-none" />
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 bg-card/20 border border-border/50 p-6 rounded-2xl relative overflow-hidden backdrop-blur-md">
+          <div className="absolute -top-16 -left-16 w-40 h-40 bg-primary/5 rounded-full blur-[60px] pointer-events-none" />
           
           <div className="flex items-center gap-4 relative z-10">
             <div className="size-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
               <User className="size-6" />
             </div>
             <div className="space-y-1">
-              <h1 className="text-xl sm:text-2xl font-bold text-white">Customer Portal</h1>
+              <h1 className="text-xl sm:text-2xl font-[family-name:var(--font-heading)] font-bold text-foreground">Customer Portal</h1>
               <p className="text-xs text-muted-foreground">Logged in as {user.email}</p>
             </div>
           </div>
@@ -172,7 +172,7 @@ export default async function CustomerPortalPage() {
                 className={buttonVariants({
                   variant: "outline",
                   size: "sm",
-                  className: "border-border text-rose-400 hover:text-rose-300 w-full justify-center gap-2 cursor-pointer",
+                  className: "border-border/50 text-destructive hover:text-destructive/80 w-full justify-center gap-2 cursor-pointer",
                 })}
               >
                 <LogOut className="size-3.5" /> Log Out
@@ -184,8 +184,8 @@ export default async function CustomerPortalPage() {
         {/* Dashboard Sections */}
         <div className="space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold text-white flex items-center gap-2">
-              <ShoppingBag className="size-5 text-primary" /> Active Subscriptions & Vaults
+            <h2 className="text-xl font-[family-name:var(--font-heading)] font-bold text-foreground flex items-center gap-2">
+              <ShoppingBag className="size-5 text-primary" /> Active Subscriptions &amp; Vaults
             </h2>
             <span className="text-xs text-muted-foreground font-semibold uppercase tracking-wider">
               {orders.filter((o) => o.status === "Delivered").length} Active Vaults
@@ -195,9 +195,9 @@ export default async function CustomerPortalPage() {
           {/* Unlocked Credentials vault grid */}
           <div className="grid grid-cols-1 gap-6">
             {orders.filter((o) => o.status === "Delivered").length === 0 ? (
-              <div className="p-8 text-center rounded-2xl border border-border bg-card/10 backdrop-blur-sm space-y-2">
+              <div className="p-8 text-center rounded-2xl border border-border/50 bg-card/10 backdrop-blur-sm space-y-2">
                 <Lock className="size-8 text-muted-foreground mx-auto mb-2" />
-                <h3 className="text-sm font-bold text-white">No active credentials unlocked</h3>
+                <h3 className="text-sm font-bold text-foreground">No active credentials unlocked</h3>
                 <p className="text-xs text-muted-foreground max-w-xs mx-auto">
                   Once your payments are validated manually via WhatsApp, credentials will show up here.
                 </p>
@@ -208,11 +208,11 @@ export default async function CustomerPortalPage() {
                 .map((order) => (
                   <div
                     key={order.id}
-                    className="rounded-2xl border border-border bg-card/40 p-6 space-y-4 backdrop-blur-md"
+                    className="rounded-2xl border border-border/50 bg-card/30 p-6 space-y-4 backdrop-blur-md"
                   >
-                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-border/50 pb-3">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-border/40 pb-3">
                       <div>
-                        <h3 className="font-bold text-white text-sm">
+                        <h3 className="font-bold text-foreground text-sm">
                           Order Vault: {order.items.map((i: any) => i.title).join(", ")}
                         </h3>
                         <span className="text-[10px] font-mono text-muted-foreground mt-0.5 block">
@@ -233,24 +233,24 @@ export default async function CustomerPortalPage() {
 
         {/* Order History Log */}
         <div className="space-y-6">
-          <h2 className="text-xl font-bold text-white flex items-center gap-2">
+          <h2 className="text-xl font-[family-name:var(--font-heading)] font-bold text-foreground flex items-center gap-2">
             <Clock className="size-5 text-primary" /> Order History Log
           </h2>
 
           {orders.length === 0 ? (
-            <div className="p-8 text-center rounded-2xl border border-border bg-card/10 backdrop-blur-sm space-y-4">
+            <div className="p-8 text-center rounded-2xl border border-border/50 bg-card/10 backdrop-blur-sm space-y-4">
               <ShoppingBag className="size-8 text-muted-foreground mx-auto" />
-              <h3 className="text-sm font-bold text-white">You haven't placed any orders yet</h3>
+              <h3 className="text-sm font-bold text-foreground">You haven&apos;t placed any orders yet</h3>
               <Link href="/catalog" className={buttonVariants({ size: "sm" })}>
                 Explore Catalog
               </Link>
             </div>
           ) : (
-            <div className="rounded-2xl border border-border bg-card/15 overflow-hidden backdrop-blur-md">
+            <div className="rounded-2xl border border-border/50 bg-card/20 overflow-hidden backdrop-blur-md">
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse text-xs sm:text-sm">
                   <thead>
-                    <tr className="border-b border-border/60 bg-muted/20 text-muted-foreground font-semibold">
+                    <tr className="border-b border-border/40 bg-muted/20 text-muted-foreground font-semibold">
                       <th className="p-4">Order ID / Date</th>
                       <th className="p-4">Items Summary</th>
                       <th className="p-4">Total Price</th>
@@ -258,11 +258,11 @@ export default async function CustomerPortalPage() {
                       <th className="p-4 text-right">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-border/40 text-slate-200">
+                  <tbody className="divide-y divide-border/30">
                     {orders.map((order) => (
                       <tr key={order.id} className="hover:bg-muted/10 transition-colors">
                         <td className="p-4 space-y-1">
-                          <span className="font-mono text-xs font-bold text-white block truncate max-w-[120px]">
+                          <span className="font-mono text-xs font-bold text-foreground block truncate max-w-[120px]">
                             {order.id}
                           </span>
                           <span className="text-[10px] text-muted-foreground block">
@@ -272,13 +272,13 @@ export default async function CustomerPortalPage() {
                         <td className="p-4">
                           <div className="max-w-[200px] sm:max-w-xs space-y-0.5">
                             {order.items.map((item: any, idx: number) => (
-                              <span key={idx} className="block truncate text-slate-300">
-                                {item.title} <span className="text-muted-foreground">x{item.quantity}</span>
+                              <span key={idx} className="block truncate text-muted-foreground">
+                                {item.title} <span className="text-muted-foreground/60">x{item.quantity}</span>
                               </span>
                             ))}
                           </div>
                         </td>
-                        <td className="p-4 font-bold text-white">{formatCurrency(order.total_price)}</td>
+                        <td className="p-4 font-bold text-foreground">{formatCurrency(order.total_price)}</td>
                         <td className="p-4">
                           <span
                             className={cn(
@@ -311,7 +311,7 @@ export default async function CustomerPortalPage() {
                             </span>
                           )}
                           {order.status === "Cancelled" && (
-                            <span className="text-[10px] text-rose-400 font-semibold flex items-center justify-end gap-1">
+                            <span className="text-[10px] text-destructive font-semibold flex items-center justify-end gap-1">
                               <ShieldAlert className="size-3" /> Cancelled
                             </span>
                           )}

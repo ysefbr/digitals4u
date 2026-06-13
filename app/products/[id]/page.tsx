@@ -45,8 +45,8 @@ export default async function ProductDetailsPage({ params }: ProductPageProps) {
       <div className="flex flex-col min-h-screen bg-background text-foreground">
         <Header />
         <main className="flex-1 flex flex-col items-center justify-center p-6 text-center">
-          <HelpCircle className="size-16 text-rose-400 mb-4" />
-          <h2 className="text-2xl font-bold text-white mb-2">Subscription Not Found</h2>
+          <HelpCircle className="size-16 text-destructive mb-4" />
+          <h2 className="text-2xl font-[family-name:var(--font-heading)] font-bold text-foreground mb-2">Subscription Not Found</h2>
           <p className="text-muted-foreground max-w-sm mb-6">
             The subscription plan you are looking for might have been retired or removed.
           </p>
@@ -72,14 +72,14 @@ export default async function ProductDetailsPage({ params }: ProductPageProps) {
         <div className="mb-8 flex items-center justify-between">
           <Link
             href="/catalog"
-            className="inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-white transition-colors"
+            className="inline-flex items-center gap-2 text-xs text-muted-foreground hover:text-primary transition-colors duration-200"
           >
             <ArrowLeft className="size-3.5" />
             Back to Catalog
           </Link>
 
           <span className="text-xs text-muted-foreground">
-            Home / Catalog / <span className="text-white">{product.title}</span>
+            Home / Catalog / <span className="text-foreground">{product.title}</span>
           </span>
         </div>
 
@@ -87,14 +87,14 @@ export default async function ProductDetailsPage({ params }: ProductPageProps) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start">
           {/* Main Info Columns (Left - Occupies 2 cols) */}
           <div className="lg:col-span-2 space-y-8">
-            <div className="rounded-2xl border border-border bg-card/15 p-6 sm:p-8 space-y-6 relative overflow-hidden backdrop-blur-md">
-              <div className="absolute -top-12 -left-12 w-48 h-48 bg-primary/10 rounded-full blur-[80px] pointer-events-none" />
+            <div className="rounded-2xl border border-border/50 bg-card/30 p-6 sm:p-8 space-y-6 relative overflow-hidden backdrop-blur-md">
+              <div className="absolute -top-16 -left-16 w-48 h-48 bg-primary/6 rounded-full blur-[80px] pointer-events-none" />
 
               <div className="space-y-3">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-primary/15 text-primary border border-primary/20">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/15">
                   <Sparkles className="size-3" /> {product.category.name}
                 </span>
-                <h1 className="text-2xl sm:text-4xl font-bold text-white">{product.title}</h1>
+                <h1 className="text-2xl sm:text-4xl font-[family-name:var(--font-heading)] font-bold text-foreground">{product.title}</h1>
               </div>
 
               <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
@@ -102,11 +102,11 @@ export default async function ProductDetailsPage({ params }: ProductPageProps) {
               </p>
 
               {/* Subscriptions Features Checklist */}
-              <div className="space-y-4 pt-4 border-t border-border/50">
-                <h2 className="text-lg font-bold text-white">What's included in this plan:</h2>
+              <div className="space-y-4 pt-4 border-t border-border/40">
+                <h2 className="text-lg font-bold text-foreground">What&apos;s included in this plan:</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {(product.features as string[]).map((feature: string, index: number) => (
-                    <div key={index} className="flex items-start gap-2.5 text-sm text-slate-300">
+                    <div key={index} className="flex items-start gap-2.5 text-sm text-muted-foreground">
                       <Check className="size-4 text-primary shrink-0 mt-0.5" />
                       <span>{feature}</span>
                     </div>
@@ -116,22 +116,22 @@ export default async function ProductDetailsPage({ params }: ProductPageProps) {
             </div>
 
             {/* Manual Activation Instructions */}
-            <div className="rounded-2xl border border-border bg-card/10 p-6 space-y-4">
-              <h2 className="text-lg font-bold text-white">How Delivery Works:</h2>
+            <div className="rounded-2xl border border-border/50 bg-card/20 p-6 space-y-4">
+              <h2 className="text-lg font-bold text-foreground">How Delivery Works:</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-                <div className="p-4 rounded-xl bg-background/50 border border-border/60 space-y-2">
-                  <div className="size-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold mx-auto">1</div>
-                  <h3 className="text-xs font-bold text-white">Add to Cart</h3>
+                <div className="p-5 rounded-xl bg-background/50 border border-border/40 space-y-3 hover:border-primary/20 transition-colors duration-300">
+                  <div className="size-9 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold mx-auto text-sm">1</div>
+                  <h3 className="text-xs font-bold text-foreground">Add to Cart</h3>
                   <p className="text-[11px] text-muted-foreground">Submit checkout form with contact details.</p>
                 </div>
-                <div className="p-4 rounded-xl bg-background/50 border border-border/60 space-y-2">
-                  <div className="size-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold mx-auto">2</div>
-                  <h3 className="text-xs font-bold text-white">WhatsApp Pay</h3>
-                  <p className="text-[11px] text-muted-foreground">Receive details & complete manually via WhatsApp.</p>
+                <div className="p-5 rounded-xl bg-background/50 border border-border/40 space-y-3 hover:border-primary/20 transition-colors duration-300">
+                  <div className="size-9 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold mx-auto text-sm">2</div>
+                  <h3 className="text-xs font-bold text-foreground">WhatsApp Pay</h3>
+                  <p className="text-[11px] text-muted-foreground">Receive details &amp; complete manually via WhatsApp.</p>
                 </div>
-                <div className="p-4 rounded-xl bg-background/50 border border-border/60 space-y-2">
-                  <div className="size-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold mx-auto">3</div>
-                  <h3 className="text-xs font-bold text-white">Access Vault</h3>
+                <div className="p-5 rounded-xl bg-background/50 border border-border/40 space-y-3 hover:border-primary/20 transition-colors duration-300">
+                  <div className="size-9 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold mx-auto text-sm">3</div>
+                  <h3 className="text-xs font-bold text-foreground">Access Vault</h3>
                   <p className="text-[11px] text-muted-foreground">Securely reveal credentials in customer panel.</p>
                 </div>
               </div>
@@ -140,21 +140,23 @@ export default async function ProductDetailsPage({ params }: ProductPageProps) {
 
           {/* Sticky checkout card (Right - Occupies 1 col) */}
           <div className="space-y-6 lg:sticky lg:top-24">
-            <div className="rounded-2xl border border-border bg-card/45 p-6 space-y-6 backdrop-blur-md">
-              <div className="space-y-2">
+            <div className="rounded-2xl border border-border/50 bg-card/40 p-6 space-y-6 backdrop-blur-md relative overflow-hidden">
+              <div className="absolute -top-12 -right-12 w-32 h-32 bg-primary/6 rounded-full blur-[60px] pointer-events-none" />
+
+              <div className="space-y-2 relative">
                 <span className="text-xs text-muted-foreground uppercase tracking-widest font-semibold">Price (Base TND)</span>
-                <div className="text-3xl font-extrabold text-white">{formatCurrency(product.price)}</div>
+                <div className="text-3xl font-extrabold text-foreground">{formatCurrency(product.price)}</div>
                 <span className="text-[11px] text-muted-foreground block">
-                  All taxes & instant setup services included.
+                  All taxes &amp; instant setup services included.
                 </span>
               </div>
 
               {/* Stock status indicator */}
-              <div className="space-y-2.5 pt-4 border-t border-border/50">
+              <div className="space-y-2.5 pt-4 border-t border-border/40">
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-muted-foreground">Stock Availability:</span>
                   {isOutOfStock ? (
-                    <span className="text-rose-400 font-bold uppercase">Out of Stock</span>
+                    <span className="text-destructive font-bold uppercase">Out of Stock</span>
                   ) : isLowStock ? (
                     <span className="text-amber-400 font-bold uppercase">Low Stock ({product.stock_count})</span>
                   ) : (
