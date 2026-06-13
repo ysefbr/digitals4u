@@ -314,3 +314,16 @@ VALUES (
   'admin'
 )
 ON CONFLICT (id) DO UPDATE SET role = 'admin';
+
+-- Fix potential NULL value scan errors for standard Supabase GoTrue Auth string fields
+UPDATE auth.users
+SET
+  confirmation_token = COALESCE(confirmation_token, ''),
+  recovery_token = COALESCE(recovery_token, ''),
+  email_change_token_new = COALESCE(email_change_token_new, ''),
+  email_change = COALESCE(email_change, ''),
+  phone_change = COALESCE(phone_change, ''),
+  phone_change_token = COALESCE(phone_change_token, ''),
+  email_change_token_current = COALESCE(email_change_token_current, ''),
+  reauthentication_token = COALESCE(reauthentication_token, '')
+WHERE id = 'a1000000-0000-0000-0000-000000000001'::uuid;
