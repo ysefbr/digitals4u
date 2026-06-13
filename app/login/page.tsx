@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import { ShieldCheck, Loader2, AlertCircle, KeyRound } from "lucide-react"
+import Image from "next/image"
 import { useRouter } from "next/navigation"
 
 export default function LoginPage() {
@@ -118,11 +119,9 @@ export default function LoginPage() {
           <div className="absolute -top-16 -left-16 w-40 h-40 bg-primary/6 rounded-full blur-[70px] pointer-events-none" />
 
           {/* Heading */}
-          <div className="text-center space-y-2 relative">
-            <h1 className="text-2xl font-[family-name:var(--font-heading)] font-bold text-foreground flex items-center justify-center gap-2">
-              <KeyRound className="size-5 text-primary" /> Digital<span className="text-primary">Services</span>
-            </h1>
-            <p className="text-xs text-muted-foreground">
+          <div className="text-center space-y-3 relative flex flex-col items-center justify-center">
+            <Image src="/logo.png" alt="DigitalServices4U Logo" width={400} height={120} className="w-auto h-8 sm:h-10 object-contain" priority />
+            <p className="text-xs text-muted-foreground mt-2">
               Sign in to access your digital account vault and order logs.
             </p>
           </div>

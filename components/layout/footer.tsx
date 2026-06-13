@@ -1,20 +1,17 @@
 import Link from "next/link"
+import Image from "next/image"
 
 export function Footer() {
   return (
     <footer className="border-t border-border/60 bg-card/30">
-      {/* Gold decorative line */}
+      {/* Decorative line */}
       <div className="h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
 
       <div className="container mx-auto px-4 py-10 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Brand */}
-          <div className="text-center md:text-left space-y-1">
-            <span className="font-[family-name:var(--font-heading)] font-bold text-lg tracking-tight">
-              <span className="text-foreground">Digital</span>
-              <span className="text-primary">Services</span>
-              <span className="text-foreground/50 text-xs font-sans ml-0.5">4U</span>
-            </span>
+          <div className="text-center md:text-left space-y-3">
+            <Image src="/logo.png" alt="DigitalServices4U Logo" width={400} height={120} className="w-auto h-7 sm:h-9 object-contain mx-auto md:mx-0" />
             <p className="text-xs text-muted-foreground">
               Tunisia&apos;s trusted digital subscription marketplace.
             </p>

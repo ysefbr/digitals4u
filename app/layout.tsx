@@ -1,17 +1,12 @@
 import type { Metadata } from "next";
-import { Playfair_Display, DM_Sans } from "next/font/google";
+import { Poppins } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { getSiteSettings } from "@/lib/data.server";
 import { WhatsAppWidget } from "@/components/whatsapp-widget";
 import "./globals.css";
 
-const playfair = Playfair_Display({
-  variable: "--font-heading",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const dmSans = DM_Sans({
+const poppins = Poppins({
+  weight: ["300", "400", "500", "600", "700", "800"],
   variable: "--font-sans",
   subsets: ["latin"],
   display: "swap",
@@ -32,7 +27,8 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${playfair.variable} ${dmSans.variable} antialiased min-h-screen bg-background text-foreground`}
+        className={`${poppins.variable} font-sans antialiased min-h-screen bg-background text-foreground`}
+        style={{ "--font-heading": "var(--font-sans)" } as React.CSSProperties}
       >
         <ThemeProvider
           attribute="class"

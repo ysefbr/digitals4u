@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { buttonVariants } from "@/components/ui/button"
 import { CartDrawer } from "@/components/layout/cart-drawer"
 
@@ -8,11 +9,7 @@ export function Header() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex gap-6 md:gap-10">
           <Link href="/" className="flex items-center space-x-2 group">
-            <span className="font-[family-name:var(--font-heading)] font-bold text-xl tracking-tight">
-              <span className="text-foreground group-hover:text-primary transition-colors duration-300">Digital</span>
-              <span className="text-primary">Services</span>
-              <span className="text-foreground/60 text-sm font-sans ml-0.5">4U</span>
-            </span>
+            <Image src="/logo.png" alt="DigitalServices4U Logo" width={400} height={120} className="w-auto h-6 sm:h-8 object-contain" priority />
           </Link>
         </div>
         <div className="flex flex-1 items-center justify-end space-x-2 sm:space-x-4">

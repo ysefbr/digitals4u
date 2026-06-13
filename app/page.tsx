@@ -3,6 +3,7 @@ import { Footer } from "@/components/layout/footer"
 import { buttonVariants } from "@/components/ui/button"
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion"
 import Link from "next/link"
+import Image from "next/image"
 import { MOCK_FAQS, formatCurrency } from "@/lib/data"
 import { getProducts } from "@/lib/data.server"
 import { Check, Zap, Shield, Lock } from "lucide-react"
@@ -18,26 +19,45 @@ export default async function Home() {
       
       {/* Hero Section */}
       <main className="flex-1 flex flex-col relative overflow-hidden bg-background">
-        {/* Warm ambient glow effects */}
+        {/* Cool ambient glow effects and floating logos */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {/* Glows */}
           <div className="absolute top-[-15%] left-[15%] w-[600px] h-[600px] rounded-full bg-primary/8 blur-[150px] animate-glow-pulse" />
-          <div className="absolute top-[5%] right-[10%] w-[400px] h-[400px] rounded-full bg-amber-600/5 blur-[120px]" />
-          <div className="absolute bottom-[10%] left-[40%] w-[300px] h-[300px] rounded-full bg-orange-500/4 blur-[100px]" />
+          <div className="absolute top-[5%] right-[10%] w-[400px] h-[400px] rounded-full bg-blue-600/5 blur-[120px]" />
+          <div className="absolute bottom-[10%] left-[40%] w-[300px] h-[300px] rounded-full bg-indigo-500/4 blur-[100px]" />
+          
+          {/* Floating Logos */}
+          <div className="absolute top-[10%] left-[5%] opacity-10 animate-drift-1" style={{ animationDelay: '0s' }}>
+            <Image src="/logo.png" alt="" width={300} height={80} className="object-contain" />
+          </div>
+          <div className="absolute top-[5%] left-[60%] opacity-[0.09] animate-drift-2" style={{ animationDelay: '4s' }}>
+            <Image src="/logo.png" alt="" width={220} height={60} className="object-contain" />
+          </div>
+          <div className="absolute top-[60%] left-[15%] opacity-[0.12] animate-drift-2" style={{ animationDelay: '2s' }}>
+            <Image src="/logo.png" alt="" width={200} height={60} className="object-contain" />
+          </div>
+          <div className="absolute top-[20%] right-[5%] opacity-10 animate-drift-2" style={{ animationDelay: '5s' }}>
+            <Image src="/logo.png" alt="" width={400} height={120} className="object-contain" />
+          </div>
+          <div className="absolute bottom-[5%] right-[20%] opacity-[0.12] animate-drift-1" style={{ animationDelay: '7s' }}>
+            <Image src="/logo.png" alt="" width={250} height={70} className="object-contain" />
+          </div>
+          <div className="absolute top-[80%] left-[40%] opacity-[0.08] animate-drift-2" style={{ animationDelay: '3s' }}>
+            <Image src="/logo.png" alt="" width={150} height={50} className="object-contain" />
+          </div>
+          <div className="absolute top-[35%] left-[50%] opacity-[0.09] animate-drift-1" style={{ animationDelay: '8s' }}>
+            <Image src="/logo.png" alt="" width={350} height={100} className="object-contain" />
+          </div>
         </div>
 
         <section className="container mx-auto px-4 py-28 sm:py-36 sm:px-6 lg:px-8 relative z-10">
           <div className="max-w-3xl mx-auto text-center space-y-8">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-primary text-xs font-semibold tracking-wider uppercase backdrop-blur-md">
-              <span className="flex h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-              Tunisia&apos;s Premium Marketplace
-            </div>
 
             {/* Headline */}
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-[family-name:var(--font-heading)] font-bold tracking-tight leading-[1.1]">
               Unlock Premium{" "}
               <br className="hidden sm:inline" />
-              <span className="text-gold-gradient">
+              <span className="text-blue-gradient">
                 Digital Services
               </span>
             </h1>
