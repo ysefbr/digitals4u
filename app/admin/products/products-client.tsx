@@ -21,7 +21,9 @@ import {
   AlertCircle,
   Eye,
   EyeOff,
+  Image as ImageIcon,
 } from "lucide-react"
+import { createClient } from "@/lib/supabase/client"
 
 interface ProductsClientProps {
   initialProducts: any[]
@@ -45,6 +47,9 @@ export function ProductsClient({ initialProducts, categories }: ProductsClientPr
   const [stock, setStock] = React.useState("")
   const [categoryId, setCategoryId] = React.useState("")
   const [isActive, setIsActive] = React.useState(true)
+  const [imageFile, setImageFile] = React.useState<File | null>(null)
+  const [imageUrl, setImageUrl] = React.useState("")
+  const [uploadingImage, setUploadingImage] = React.useState(false)
 
   React.useEffect(() => {
     setProducts(initialProducts)
@@ -58,6 +63,8 @@ export function ProductsClient({ initialProducts, categories }: ProductsClientPr
     setStock("")
     setCategoryId(categories[0]?.id || "")
     setIsActive(true)
+    setImageFile(null)
+    setImageUrl("")
     setError(null)
     setIsOpen(true)
   }
@@ -70,6 +77,8 @@ export function ProductsClient({ initialProducts, categories }: ProductsClientPr
     setStock(product.stock_count.toString())
     setCategoryId(product.category_id || categories[0]?.id || "")
     setIsActive(product.is_active)
+    setImageFile(null)
+    setImageUrl(product.image || "")
     setError(null)
     setIsOpen(true)
   }
@@ -113,6 +122,33 @@ export function ProductsClient({ initialProducts, categories }: ProductsClientPr
     }
 
     try {
+      let finalImageUrl = imageUrl
+      if (imageFile) {
+        setUploadingImage(true)
+        const supabase = createClient()
+        const fileExt = imageFile.name.split('.').pop()
+        const fileName = `${Math.random().toString(36).substring(2, 15)}.${fileExt}`
+        const filePath = `${fileName}`
+
+        const { error: uploadError } = await supabase.storage
+          .from("product-images")
+          .upload(filePath, imageFile)
+
+        if (uploadError) {
+          setError("Failed to upload image: " + uploadError.message)
+          setLoading(false)
+          setUploadingImage(false)
+          return
+        }
+
+        const { data: publicUrlData } = supabase.storage
+          .from("product-images")
+          .getPublicUrl(filePath)
+          
+        finalImageUrl = publicUrlData.publicUrl
+        setUploadingImage(false)
+      }
+
       if (editId) {
         // Edit Action
         const res = await updateProductAction(editId, {
@@ -122,6 +158,7 @@ export function ProductsClient({ initialProducts, categories }: ProductsClientPr
           stock_count: numStock,
           category_id: categoryId || undefined,
           is_active: isActive,
+          image: finalImageUrl,
         })
 
         if (res.success) {
@@ -139,6 +176,7 @@ export function ProductsClient({ initialProducts, categories }: ProductsClientPr
                     category_id: categoryId,
                     category: { name: updatedCategoryName },
                     is_active: isActive,
+                    image: finalImageUrl,
                   }
                 : p
             )
@@ -156,6 +194,7 @@ export function ProductsClient({ initialProducts, categories }: ProductsClientPr
           stock_count: numStock,
           category_id: categoryId || undefined,
           is_active: isActive,
+          image: finalImageUrl,
         })
 
         if (res.success) {
@@ -249,6 +288,32 @@ export function ProductsClient({ initialProducts, categories }: ProductsClientPr
               />
             </div>
 
+            <div className="space-y-1.5">
+              <Label className="text-white text-xs font-semibold">
+                Product Image
+              </Label>
+              <div className="flex items-center gap-3">
+                {imageUrl && !imageFile && (
+                  <img src={imageUrl} alt="Preview" className="size-10 rounded-md object-cover border border-border" />
+                )}
+                {imageFile && (
+                  <div className="size-10 rounded-md bg-primary/20 border border-primary flex items-center justify-center">
+                    <ImageIcon className="size-5 text-primary" />
+                  </div>
+                )}
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    if (e.target.files && e.target.files[0]) {
+                      setImageFile(e.target.files[0])
+                    }
+                  }}
+                  className="bg-background border-border text-sm h-10 rounded-xl cursor-pointer file:text-primary file:bg-primary/10 file:border-0 file:rounded-md file:px-2 file:py-1 file:mr-3 file:cursor-pointer hover:file:bg-primary/20 w-full"
+                />
+              </div>
+            </div>
+
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1.5">
                 <Label htmlFor="price" className="text-white text-xs font-semibold">
@@ -323,9 +388,9 @@ export function ProductsClient({ initialProducts, categories }: ProductsClientPr
                   className: "flex-1 justify-center gap-2 cursor-pointer",
                 })}
               >
-                {loading ? (
+                {loading || uploadingImage ? (
                   <>
-                    <Loader2 className="size-4 animate-spin" /> Saving...
+                    <Loader2 className="size-4 animate-spin" /> {uploadingImage ? "Uploading Image..." : "Saving..."}
                   </>
                 ) : (
                   "Save Product"

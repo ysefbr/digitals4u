@@ -30,6 +30,7 @@ export async function createProductAction(data: {
   stock_count: number
   category_id?: string
   is_active: boolean
+  image?: string
 }) {
   if (!data.title || !data.description || data.price < 0 || data.stock_count < 0) {
     return { success: false, error: "Please provide valid product details." }
@@ -54,6 +55,7 @@ export async function createProductAction(data: {
       stock_count: data.stock_count,
       category_id: data.category_id || null,
       is_active: data.is_active,
+      image: data.image || null,
     })
 
     if (error) {
@@ -78,6 +80,7 @@ export async function updateProductAction(
     stock_count: number
     category_id?: string
     is_active: boolean
+    image?: string
   }
 ) {
   if (!productId || !data.title || !data.description || data.price < 0 || data.stock_count < 0) {
@@ -105,6 +108,7 @@ export async function updateProductAction(
         stock_count: data.stock_count,
         category_id: data.category_id || null,
         is_active: data.is_active,
+        image: data.image || null,
       })
       .eq("id", productId)
 
