@@ -106,11 +106,22 @@ export default async function Home() {
                 className="group flex flex-col h-full rounded-2xl border border-border/50 bg-card/40 backdrop-blur-md overflow-hidden hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 transition-all duration-500 relative"
               >
                 {product.badge && (
-                  <span className="absolute top-4 right-4 bg-primary text-primary-foreground text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full">
+                  <span className="absolute top-4 right-4 bg-primary text-primary-foreground text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full z-10">
                     {product.badge}
                   </span>
                 )}
                 
+                {product.image && (
+                  <div className="relative h-48 w-full overflow-hidden border-b border-border/40 shrink-0">
+                    <Image
+                      src={product.image}
+                      alt={product.title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                  </div>
+                )}
+
                 <div className="p-6 flex-1 space-y-4">
                   <div className="space-y-1">
                     <span className="text-xs font-semibold text-primary/80 uppercase tracking-widest">{product.category.name}</span>

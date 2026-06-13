@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { Check, Search, SlidersHorizontal, ShieldCheck } from "lucide-react"
+import Image from "next/image"
 
 interface CatalogPageProps {
   searchParams: Promise<{
@@ -173,6 +174,17 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                       <span className="absolute top-4 right-4 bg-primary text-primary-foreground text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full z-10">
                         {product.badge}
                       </span>
+                    )}
+
+                    {product.image && (
+                      <div className="relative h-48 w-full overflow-hidden border-b border-border/40 shrink-0">
+                        <Image
+                          src={product.image}
+                          alt={product.title}
+                          fill
+                          className="object-cover transition-transform duration-700 group-hover:scale-110"
+                        />
+                      </div>
                     )}
 
                     <div className="p-6 flex-1 space-y-4">

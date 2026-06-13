@@ -8,6 +8,7 @@ import { buttonVariants } from "@/components/ui/button"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { ArrowLeft, Check, Shield, Zap, Sparkles, HelpCircle } from "lucide-react"
+import Image from "next/image"
 
 interface ProductPageProps {
   params: Promise<{ id: string }>
@@ -89,6 +90,18 @@ export default async function ProductDetailsPage({ params }: ProductPageProps) {
           <div className="lg:col-span-2 space-y-8">
             <div className="rounded-2xl border border-border/50 bg-card/30 p-6 sm:p-8 space-y-6 relative overflow-hidden backdrop-blur-md">
               <div className="absolute -top-16 -left-16 w-48 h-48 bg-primary/6 rounded-full blur-[80px] pointer-events-none" />
+
+              {product.image && (
+                <div className="relative w-full h-64 sm:h-80 rounded-xl overflow-hidden mb-6 border border-border/40 shrink-0">
+                  <Image
+                    src={product.image}
+                    alt={product.title}
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </div>
+              )}
 
               <div className="space-y-3">
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/15">

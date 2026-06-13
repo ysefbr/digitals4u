@@ -23,6 +23,7 @@ export interface Product {
   category_id: string
   is_active: boolean
   created_at: string
+  image?: string | null
 }
 
 export interface Order {

@@ -39,6 +39,7 @@ export interface ProductType {
   is_active: boolean
   features: string[]
   badge?: string
+  image?: string
 }
 
 export const MOCK_PRODUCTS: ProductType[] = [
@@ -58,7 +59,8 @@ export const MOCK_PRODUCTS: ProductType[] = [
       "Custom GPT Builders",
       "Instant setup & delivery"
     ],
-    badge: "Most Popular"
+    badge: "Most Popular",
+    image: "https://images.unsplash.com/photo-1677442136019-21780efad99a?w=400&q=80"
   },
   {
     id: "22000000-0000-0000-0000-000000000002",
@@ -75,7 +77,8 @@ export const MOCK_PRODUCTS: ProductType[] = [
       "Commercial licensing rights",
       "Private stealth image mode",
       "Personal user gallery"
-    ]
+    ],
+    image: "https://images.unsplash.com/photo-1681412338275-c7e6c466fb04?w=400&q=80"
   },
   {
     id: "33000000-0000-0000-0000-000000000003",
@@ -93,7 +96,8 @@ export const MOCK_PRODUCTS: ProductType[] = [
       "Download on up to 6 devices",
       "Private locked profile options"
     ],
-    badge: "Best Value"
+    badge: "Best Value",
+    image: "https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=400&q=80"
   },
   {
     id: "44000000-0000-0000-0000-000000000004",
@@ -110,7 +114,8 @@ export const MOCK_PRODUCTS: ProductType[] = [
       "Individual accounts",
       "High-Fidelity audio quality",
       "Unlimited skip buttons"
-    ]
+    ],
+    image: "https://images.unsplash.com/photo-1611339555312-e607c83ce92c?w=400&q=80"
   },
   {
     id: "55000000-0000-0000-0000-000000000005",
@@ -127,7 +132,8 @@ export const MOCK_PRODUCTS: ProductType[] = [
       "One-click Magic Resizer tool",
       "Brand Kit management",
       "1TB of cloud storage space"
-    ]
+    ],
+    image: "https://images.unsplash.com/photo-1626785774573-4b799315345d?w=400&q=80"
   },
   {
     id: "66000000-0000-0000-0000-000000000006",
@@ -143,7 +149,8 @@ export const MOCK_PRODUCTS: ProductType[] = [
       "Background audio play",
       "YouTube Music Premium free",
       "Offline downloads supported"
-    ]
+    ],
+    image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=400&q=80"
   }
 ]
 

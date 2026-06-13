@@ -38,6 +38,7 @@ CREATE TABLE public.products (
   stock_count INTEGER NOT NULL DEFAULT 0,
   category_id UUID REFERENCES public.categories(id) ON DELETE SET NULL,
   is_active BOOLEAN NOT NULL DEFAULT true,
+  image TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
@@ -273,14 +274,14 @@ VALUES
 ON CONFLICT (id) DO NOTHING;
 
 -- Seed Products
-INSERT INTO public.products (id, title, description, price, stock_count, category_id, is_active)
+INSERT INTO public.products (id, title, description, price, stock_count, category_id, is_active, image)
 VALUES
-  ('11000000-0000-0000-0000-000000000001'::uuid, 'ChatGPT Plus Premium', 'Access GPT-4, DALL-E, and advanced data analysis tools. Direct delivery with shared or private options.', 65.00, 15, 'c1000000-0000-0000-0000-000000000001'::uuid, true),
-  ('22000000-0000-0000-0000-000000000002'::uuid, 'Midjourney Pro Plan', 'Generate breathtaking images with the world''s leading AI art creator. Unlimited relaxed GPU hours.', 95.00, 3, 'c1000000-0000-0000-0000-000000000001'::uuid, true),
-  ('33000000-0000-0000-0000-000000000003'::uuid, 'Netflix Premium 4K', 'Stream unlimited movies and TV shows in 4K Ultra HD. 4 concurrent screens supported.', 15.00, 8, 'c2000000-0000-0000-0000-000000000002'::uuid, true),
-  ('44000000-0000-0000-0000-000000000004'::uuid, 'Spotify Premium Individual', 'Listen to music without ad interruptions, download tracks for offline playing, and high quality audio.', 8.50, 22, 'c2000000-0000-0000-0000-000000000002'::uuid, true),
-  ('55000000-0000-0000-0000-000000000005'::uuid, 'Canva Pro Annual', 'Design anything like a professional. Millions of premium templates, photos, and fonts.', 45.00, 12, 'c3000000-0000-0000-0000-000000000003'::uuid, true),
-  ('66000000-0000-0000-0000-000000000006'::uuid, 'YouTube Premium 1-Month', 'Watch YouTube without ads, play video in background, and download videos to play offline.', 9.00, 19, 'c2000000-0000-0000-0000-000000000002'::uuid, true)
+  ('11000000-0000-0000-0000-000000000001'::uuid, 'ChatGPT Plus Premium', 'Access GPT-4, DALL-E, and advanced data analysis tools. Direct delivery with shared or private options.', 65.00, 15, 'c1000000-0000-0000-0000-000000000001'::uuid, true, 'https://images.unsplash.com/photo-1677442136019-21780efad99a?w=400&q=80'),
+  ('22000000-0000-0000-0000-000000000002'::uuid, 'Midjourney Pro Plan', 'Generate breathtaking images with the world''s leading AI art creator. Unlimited relaxed GPU hours.', 95.00, 3, 'c1000000-0000-0000-0000-000000000001'::uuid, true, 'https://images.unsplash.com/photo-1681412338275-c7e6c466fb04?w=400&q=80'),
+  ('33000000-0000-0000-0000-000000000003'::uuid, 'Netflix Premium 4K', 'Stream unlimited movies and TV shows in 4K Ultra HD. 4 concurrent screens supported.', 15.00, 8, 'c2000000-0000-0000-0000-000000000002'::uuid, true, 'https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=400&q=80'),
+  ('44000000-0000-0000-0000-000000000004'::uuid, 'Spotify Premium Individual', 'Listen to music without ad interruptions, download tracks for offline playing, and high quality audio.', 8.50, 22, 'c2000000-0000-0000-0000-000000000002'::uuid, true, 'https://images.unsplash.com/photo-1611339555312-e607c83ce92c?w=400&q=80'),
+  ('55000000-0000-0000-0000-000000000005'::uuid, 'Canva Pro Annual', 'Design anything like a professional. Millions of premium templates, photos, and fonts.', 45.00, 12, 'c3000000-0000-0000-0000-000000000003'::uuid, true, 'https://images.unsplash.com/photo-1626785774573-4b799315345d?w=400&q=80'),
+  ('66000000-0000-0000-0000-000000000006'::uuid, 'YouTube Premium 1-Month', 'Watch YouTube without ads, play video in background, and download videos to play offline.', 9.00, 19, 'c2000000-0000-0000-0000-000000000002'::uuid, true, 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=400&q=80')
 ON CONFLICT (id) DO NOTHING;
 
 -- Seed Default Admin Account
