@@ -274,3 +274,43 @@ VALUES
   ('55000000-0000-0000-0000-000000000005'::uuid, 'Canva Pro Annual', 'Design anything like a professional. Millions of premium templates, photos, and fonts.', 45.00, 12, 'c3000000-0000-0000-0000-000000000003'::uuid, true),
   ('66000000-0000-0000-0000-000000000006'::uuid, 'YouTube Premium 1-Month', 'Watch YouTube without ads, play video in background, and download videos to play offline.', 9.00, 19, 'c2000000-0000-0000-0000-000000000002'::uuid, true)
 ON CONFLICT (id) DO NOTHING;
+
+-- Seed Default Admin Account
+-- Email: admin@digitals4u.com
+-- Password: admin123 (bcrypt hash: $2a$10$acaXGauv/3buNdwQWeOgu.iab3LLDclrH64xVMsSxd9Lp/otgUfMm)
+INSERT INTO auth.users (
+  id,
+  instance_id,
+  email,
+  encrypted_password,
+  email_confirmed_at,
+  created_at,
+  updated_at,
+  aud,
+  role,
+  raw_app_meta_data,
+  raw_user_meta_data
+)
+VALUES (
+  'a1000000-0000-0000-0000-000000000001'::uuid,
+  '00000000-0000-0000-0000-000000000000'::uuid,
+  'admin@digitals4u.com',
+  '$2a$10$acaXGauv/3buNdwQWeOgu.iab3LLDclrH64xVMsSxd9Lp/otgUfMm',
+  now(),
+  now(),
+  now(),
+  'authenticated',
+  'authenticated',
+  '{"provider":"email","providers":["email"]}'::jsonb,
+  '{}'::jsonb
+)
+ON CONFLICT (id) DO NOTHING;
+
+-- Ensure it is an admin in public.users
+INSERT INTO public.users (id, email, role)
+VALUES (
+  'a1000000-0000-0000-0000-000000000001'::uuid,
+  'admin@digitals4u.com',
+  'admin'
+)
+ON CONFLICT (id) DO UPDATE SET role = 'admin';
