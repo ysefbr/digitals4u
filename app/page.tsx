@@ -226,7 +226,7 @@ export default async function Home() {
               href="/catalog"
               className={buttonVariants({ variant: "link", className: "text-primary font-semibold" })}
             >
-              Browse all {allProducts.length} subscriptions &rarr;
+              Browse all {allProducts.length}  subscriptions &rarr;
             </Link>
           </div>
         </section>
