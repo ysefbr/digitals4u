@@ -136,7 +136,7 @@ export default async function Home() {
               >
                 Explore Catalog
               </Link>
-              <Link
+              {/* <Link
                 href="#features"
                 className={buttonVariants({
                   size: "lg",
@@ -145,7 +145,7 @@ export default async function Home() {
                 })}
               >
                 Learn More
-              </Link>
+              </Link> */}
             </div>
           </div>
         </section>
