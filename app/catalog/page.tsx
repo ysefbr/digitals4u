@@ -123,44 +123,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
               </nav>
             </div>
 
-            {/* Price Brackets */}
-            <div className="space-y-3">
-              <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Price Bracket</label>
-              <nav className="flex flex-wrap lg:flex-col gap-1">
-                <Link
-                  href={`/catalog?${new URLSearchParams({
-                    ...(categorySlug && { category: categorySlug }),
-                    ...(query && { q: query }),
-                  })}`}
-                  className={cn(
-                    "px-3 py-2 rounded-xl text-sm transition-colors duration-200 text-left w-auto lg:w-full",
-                    !maxPriceVal
-                      ? "bg-primary/10 text-primary font-medium border border-primary/15"
-                      : "text-muted-foreground hover:bg-card hover:text-foreground"
-                  )}
-                >
-                  Any Price
-                </Link>
-                {[15, 30, 65, 100].map((price) => (
-                  <Link
-                    key={price}
-                    href={`/catalog?${new URLSearchParams({
-                      maxPrice: price.toString(),
-                      ...(categorySlug && { category: categorySlug }),
-                      ...(query && { q: query }),
-                    })}`}
-                    className={cn(
-                      "px-3 py-2 rounded-xl text-sm transition-colors duration-200 text-left w-auto lg:w-full",
-                      maxPriceVal === price
-                        ? "bg-primary/10 text-primary font-medium border border-primary/15"
-                        : "text-muted-foreground hover:bg-card hover:text-foreground"
-                    )}
-                  >
-                    Under {formatCurrency(price)}
-                  </Link>
-                ))}
-              </nav>
-            </div>
+
           </aside>
 
           {/* Catalog Grid */}
