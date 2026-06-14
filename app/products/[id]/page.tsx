@@ -155,7 +155,7 @@ export default async function ProductDetailsPage({ params }: ProductPageProps) {
       />
       <Header />
 
-      <main className="flex-1 container mx-auto px-4 py-5 sm:py-8 sm:px-6 lg:px-8 max-w-6xl">
+      <main className="flex-1 container mx-auto px-4 py-5 pb-24 lg:pb-8 sm:py-8 sm:px-6 lg:px-8 max-w-6xl">
         {/* Navigation Breadcrumb */}
         <div className="mb-4 sm:mb-8 flex items-center justify-between">
           <Link
@@ -303,6 +303,25 @@ export default async function ProductDetailsPage({ params }: ProductPageProps) {
           </div>
         </div>
       </main>
+
+      {/* Sticky mobile bottom bar */}
+      <div className="fixed bottom-0 inset-x-0 z-50 lg:hidden border-t border-border/50 bg-background/80 backdrop-blur-xl px-4 py-3 safe-bottom">
+        <div className="flex items-center gap-3 max-w-6xl mx-auto">
+          <div className="shrink-0">
+            <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold block">Price</span>
+            <span className="text-lg font-extrabold text-foreground">{formatCurrency(product.price)}</span>
+          </div>
+          <div className="flex-1">
+            <AddToCartButton
+              id={product.id}
+              title={product.title}
+              price={product.price}
+              stock_count={product.stock_count}
+              categoryName={product.category.name}
+            />
+          </div>
+        </div>
+      </div>
 
       <Footer />
     </div>
