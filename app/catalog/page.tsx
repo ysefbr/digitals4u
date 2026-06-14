@@ -182,9 +182,10 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {products.map((product) => (
-                  <div
+                  <Link
                     key={product.id}
-                    className="group flex flex-col h-full rounded-2xl border border-border/50 bg-card/40 backdrop-blur-md overflow-hidden hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 transition-all duration-500 relative"
+                    href={`/products/${product.id}`}
+                    className="group flex flex-col h-full rounded-2xl border border-border/50 bg-card/40 backdrop-blur-md overflow-hidden hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 transition-all duration-500 relative cursor-pointer"
                   >
                     {product.badge && (
                       <span className="absolute top-4 right-4 bg-primary text-primary-foreground text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full z-10">
@@ -250,14 +251,13 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                         <span className="text-lg font-bold text-foreground">{formatCurrency(product.price)}</span>
                       </div>
 
-                      <Link
-                        href={`/products/${product.id}`}
+                      <span
                         className={buttonVariants({ className: "w-full justify-center font-semibold" })}
                       >
                         View Details
-                      </Link>
+                      </span>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             )}
