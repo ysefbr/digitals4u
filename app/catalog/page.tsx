@@ -8,6 +8,22 @@ import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { Check, Search, SlidersHorizontal, ShieldCheck } from "lucide-react"
 import Image from "next/image"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Subscription Catalog — Browse Premium Digital Services",
+  description:
+    "Browse our curated marketplace of premium AI tools, streaming accounts, and software subscriptions. All prices in TND with instant WhatsApp delivery in Tunisia.",
+  alternates: {
+    canonical: "/catalog",
+  },
+  openGraph: {
+    title: "Subscription Catalog | DigitalServices4U",
+    description:
+      "Browse premium AI, streaming, and software subscriptions. TND pricing with instant delivery.",
+    url: "/catalog",
+  },
+}
 
 interface CatalogPageProps {
   searchParams: Promise<{

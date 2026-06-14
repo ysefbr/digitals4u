@@ -2,6 +2,21 @@ import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import Link from "next/link"
 import { ShieldCheck, Calendar, Info } from "lucide-react"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Terms of Service",
+  description:
+    "Read the terms of service for DigitalServices4U. Learn about our manual WhatsApp checkout process, credential delivery, service guarantees, and usage policies.",
+  alternates: {
+    canonical: "/terms",
+  },
+  openGraph: {
+    title: "Terms of Service | DigitalServices4U",
+    description: "Our terms of service covering manual checkout, credential delivery, and service guarantees.",
+    url: "/terms",
+  },
+}
 
 export default function TermsOfServicePage() {
   return (

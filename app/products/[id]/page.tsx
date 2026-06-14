@@ -14,24 +14,49 @@ interface ProductPageProps {
   params: Promise<{ id: string }>
 }
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.digitals4u.app";
+
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
   const { id } = await params
   const product = await getProductById(id)
 
   if (!product) {
     return {
-      title: "Subscription Not Found | DigitalServices4U",
+      title: "Subscription Not Found",
       description: "The requested subscription could not be found.",
     }
   }
 
+  const productUrl = `${siteUrl}/products/${product.id}`
+  const description = `${product.description.substring(0, 150)}... Buy premium accounts in Tunisia with WhatsApp delivery.`
+
   return {
-    title: `${product.title} - DigitalServices4U`,
-    description: `${product.description.substring(0, 150)}... Buy premium accounts in Tunisia with WhatsApp delivery.`,
+    title: product.title,
+    description,
+    alternates: {
+      canonical: `/products/${product.id}`,
+    },
     openGraph: {
       title: `${product.title} | DigitalServices4U`,
       description: product.description.substring(0, 150),
       type: "website",
+      url: productUrl,
+      ...(product.image && {
+        images: [
+          {
+            url: product.image,
+            width: 800,
+            height: 600,
+            alt: product.title,
+          },
+        ],
+      }),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: product.title,
+      description: product.description.substring(0, 150),
+      ...(product.image && { images: [product.image] }),
     },
   }
 }
@@ -64,8 +89,70 @@ export default async function ProductDetailsPage({ params }: ProductPageProps) {
   const isOutOfStock = product.stock_count <= 0
   const isLowStock = product.stock_count > 0 && product.stock_count <= 5
 
+  // JSON-LD Structured Data — Product Schema
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.title,
+    description: product.description,
+    ...(product.image && { image: product.image }),
+    brand: {
+      "@type": "Brand",
+      name: "DigitalServices4U",
+    },
+    category: product.category.name,
+    offers: {
+      "@type": "Offer",
+      url: `${siteUrl}/products/${product.id}`,
+      priceCurrency: "TND",
+      price: product.price.toFixed(3),
+      availability: isOutOfStock
+        ? "https://schema.org/OutOfStock"
+        : "https://schema.org/InStock",
+      seller: {
+        "@type": "Organization",
+        name: "DigitalServices4U",
+      },
+    },
+  }
+
+  // JSON-LD Structured Data — BreadcrumbList Schema
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: siteUrl,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Catalog",
+        item: `${siteUrl}/catalog`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: product.title,
+        item: `${siteUrl}/products/${product.id}`,
+      },
+    ],
+  }
+
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
+      {/* JSON-LD Structured Data for Google Rich Results */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <Header />
 
       <main className="flex-1 container mx-auto px-4 py-8 sm:px-6 lg:px-8 max-w-6xl">

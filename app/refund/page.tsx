@@ -1,6 +1,21 @@
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import { Calendar, HelpCircle, AlertCircle, Sparkles } from "lucide-react"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Refund Policy",
+  description:
+    "DigitalServices4U refund policy. Learn about refund eligibility for pending orders, post-delivery warranty, credential replacements, and non-refundable scenarios.",
+  alternates: {
+    canonical: "/refund",
+  },
+  openGraph: {
+    title: "Refund Policy | DigitalServices4U",
+    description: "Our refund policy covering pending orders, post-delivery warranty, and replacement guarantees.",
+    url: "/refund",
+  },
+}
 
 export default function RefundPolicyPage() {
   return (

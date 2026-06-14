@@ -8,15 +8,76 @@ import { MOCK_FAQS, formatCurrency } from "@/lib/data"
 import { getProducts } from "@/lib/data.server"
 import { Check, Zap, Shield, Lock } from "lucide-react"
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.digitals4u.app";
+
 export default async function Home() {
   const allProducts = await getProducts()
   // Display top 3 products as featured
   const featuredProducts = allProducts.slice(0, 3)
 
+  // JSON-LD: FAQPage Schema — makes FAQs eligible for Google rich result dropdowns
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: MOCK_FAQS.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  }
+
+  // JSON-LD: Organization Schema — powers Google Knowledge Panel
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "DigitalServices4U",
+    url: siteUrl,
+    logo: `${siteUrl}/logo.png`,
+    description:
+      "Tunisia's trusted premium digital subscription marketplace. AI tools, streaming accounts, and software subscriptions with instant WhatsApp delivery.",
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      availableLanguage: ["English", "French", "Arabic"],
+    },
+  }
+
+  // JSON-LD: WebSite Schema — enables Google sitelinks search box
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "DigitalServices4U",
+    url: siteUrl,
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${siteUrl}/catalog?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
+  }
+
   return (
     <div className="flex flex-col min-h-screen">
+      {/* JSON-LD Structured Data for Google Rich Results */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+      />
       <Header />
-      
+
       {/* Hero Section */}
       <main className="flex-1 flex flex-col relative overflow-hidden bg-background">
         {/* Cool ambient glow effects and floating logos */}
@@ -25,7 +86,7 @@ export default async function Home() {
           <div className="absolute top-[-15%] left-[15%] w-[600px] h-[600px] rounded-full bg-primary/8 blur-[150px] animate-glow-pulse" />
           <div className="absolute top-[5%] right-[10%] w-[400px] h-[400px] rounded-full bg-blue-600/5 blur-[120px]" />
           <div className="absolute bottom-[10%] left-[40%] w-[300px] h-[300px] rounded-full bg-indigo-500/4 blur-[100px]" />
-          
+
           {/* Floating Logos */}
           <div className="absolute top-[10%] left-[5%] opacity-10 animate-drift-1" style={{ animationDelay: '0s' }}>
             <Image src="/logo.png" alt="" width={300} height={80} className="object-contain" />
@@ -55,15 +116,17 @@ export default async function Home() {
 
             {/* Headline */}
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-[family-name:var(--font-heading)] font-bold tracking-tight leading-[1.1]">
-              Unlock Premium{" "}
+              Premium{" "}
               <br className="hidden sm:inline" />
               <span className="text-blue-gradient">
                 Digital Services
               </span>
+              <br className="hidden sm:inline" />
+              4u
             </h1>
 
             <p className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto leading-relaxed">
-              Access premium AI tools, software subscriptions, streaming accounts, and digital assets. Manual checkout with instant delivery via WhatsApp.
+              Access premium AI tools, software subscriptions, streaming accounts, and digital assets.
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-4">
@@ -110,7 +173,7 @@ export default async function Home() {
                     {product.badge}
                   </span>
                 )}
-                
+
                 {product.image && (
                   <div className="relative h-48 w-full overflow-hidden border-b border-border/40 shrink-0">
                     <Image
@@ -129,7 +192,7 @@ export default async function Home() {
                     <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">{product.title}</h3>
                   </div>
                   <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">{product.description}</p>
-                  
+
                   {/* Features List */}
                   <ul className="space-y-2.5 pt-2">
                     {(product.features as string[]).slice(0, 4).map((feature: string, idx: number) => (
@@ -146,7 +209,7 @@ export default async function Home() {
                     <span className="text-xs text-muted-foreground">Price starting at</span>
                     <span className="text-xl font-extrabold text-foreground">{formatCurrency(product.price)}</span>
                   </div>
-                  
+
                   <Link
                     href={`/products/${product.id}`}
                     className={buttonVariants({ variant: "outline", className: "w-full justify-center border-border/50 hover:border-primary/30 hover:text-primary" })}
