@@ -143,21 +143,21 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                 </Link>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-6">
                 {products.map((product) => (
                   <Link
                     key={product.id}
                     href={`/products/${product.id}`}
-                    className="group flex flex-col h-full rounded-2xl border border-border/50 bg-card/40 backdrop-blur-md overflow-hidden hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 transition-all duration-500 relative cursor-pointer"
+                    className="group flex flex-col h-full rounded-xl md:rounded-2xl border border-border/50 bg-card/40 backdrop-blur-md overflow-hidden hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 transition-all duration-500 relative cursor-pointer"
                   >
                     {product.badge && (
-                      <span className="absolute top-4 right-4 bg-primary text-primary-foreground text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full z-10">
+                      <span className="absolute top-2 right-2 md:top-4 md:right-4 bg-primary text-primary-foreground text-[8px] md:text-[10px] uppercase font-bold tracking-wider px-1.5 md:px-2 py-0.5 rounded-full z-10">
                         {product.badge}
                       </span>
                     )}
 
                     {product.image && (
-                      <div className="relative h-48 w-full overflow-hidden border-b border-border/40 shrink-0">
+                      <div className="relative h-28 md:h-48 w-full overflow-hidden border-b border-border/40 shrink-0">
                         <Image
                           src={product.image}
                           alt={product.title}
@@ -168,37 +168,37 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                       </div>
                     )}
 
-                    <div className="p-6 flex-1 space-y-4">
-                      <div className="space-y-1">
-                        <span className="text-[10px] font-bold text-primary uppercase tracking-widest">
+                    <div className="p-3 md:p-6 flex-1 space-y-2 md:space-y-4">
+                      <div className="space-y-0.5 md:space-y-1">
+                        <span className="text-[8px] md:text-[10px] font-bold text-primary uppercase tracking-widest">
                           {product.category.name}
                         </span>
-                        <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors duration-300 line-clamp-1">
+                        <h3 className="text-xs md:text-lg font-bold text-foreground group-hover:text-primary transition-colors duration-300 line-clamp-1">
                           {product.title}
                         </h3>
                       </div>
-                      <p className="text-xs text-muted-foreground line-clamp-3 leading-relaxed">
+                      <p className="text-[10px] md:text-xs text-muted-foreground line-clamp-2 md:line-clamp-3 leading-relaxed">
                         {product.description}
                       </p>
 
                       {/* Stock Check */}
-                      <div className="flex items-center gap-2 pt-2">
+                      <div className="flex flex-wrap items-center gap-1 md:gap-2 pt-1 md:pt-2">
                         {product.stock_count > 0 ? (
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                          <span className="inline-flex items-center gap-1 md:gap-1.5 px-1.5 md:px-2.5 py-0.5 rounded-full text-[8px] md:text-[10px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                             In Stock ({product.stock_count})
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-rose-500/10 text-rose-400 border border-rose-500/20">
+                          <span className="inline-flex items-center gap-1 md:gap-1.5 px-1.5 md:px-2.5 py-0.5 rounded-full text-[8px] md:text-[10px] font-medium bg-rose-500/10 text-rose-400 border border-rose-500/20">
                             Out of Stock
                           </span>
                         )}
-                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-primary/8 text-primary border border-primary/15">
-                          <ShieldCheck className="size-3" /> Guaranteed
+                        <span className="inline-flex items-center gap-1 px-1.5 md:px-2.5 py-0.5 rounded-full text-[8px] md:text-[10px] font-medium bg-primary/8 text-primary border border-primary/15">
+                          <ShieldCheck className="size-2.5 md:size-3" /> Guaranteed
                         </span>
                       </div>
 
-                      {/* Snippet Features */}
-                      <ul className="space-y-1.5 pt-1">
+                      {/* Snippet Features - hidden on mobile for compactness */}
+                      <ul className="hidden md:block space-y-1.5 pt-1">
                         {(product.features as string[]).slice(0, 3).map((feat: string, idx: number) => (
                           <li key={idx} className="flex items-center gap-2 text-[11px] text-muted-foreground">
                             <Check className="size-3 text-primary shrink-0" />
@@ -208,14 +208,14 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
                       </ul>
                     </div>
 
-                    <div className="p-6 border-t border-border/40 bg-card/50 flex flex-col gap-4">
+                    <div className="p-3 md:p-6 border-t border-border/40 bg-card/50 flex flex-col gap-2 md:gap-4">
                       <div className="flex items-baseline justify-between">
-                        <span className="text-[11px] text-muted-foreground">Price</span>
-                        <span className="text-lg font-bold text-foreground">{formatCurrency(product.price)}</span>
+                        <span className="text-[9px] md:text-[11px] text-muted-foreground">Price</span>
+                        <span className="text-sm md:text-lg font-bold text-foreground">{formatCurrency(product.price)}</span>
                       </div>
 
                       <span
-                        className={buttonVariants({ className: "w-full justify-center font-semibold" })}
+                        className={buttonVariants({ size: "sm", className: "w-full justify-center font-semibold text-xs md:text-sm" })}
                       >
                         View Details
                       </span>
