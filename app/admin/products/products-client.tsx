@@ -5,6 +5,7 @@ import {
   createProductAction,
   updateProductAction,
   toggleProductActiveAction,
+  deleteProductAction,
 } from "@/actions/admin-products"
 import { formatCurrency, ProductType } from "@/lib/data"
 import { buttonVariants } from "@/components/ui/button"
@@ -35,6 +36,7 @@ export function ProductsClient({ initialProducts, categories }: ProductsClientPr
   const [loading, setLoading] = React.useState(false)
   const [actionLoadingId, setActionLoadingId] = React.useState<string | null>(null)
   const [error, setError] = React.useState<string | null>(null)
+  const [deleteConfirmId, setDeleteConfirmId] = React.useState<string | null>(null)
   
   // Form Drawer/Modal state
   const [isOpen, setIsOpen] = React.useState(false)
@@ -93,6 +95,23 @@ export function ProductsClient({ initialProducts, categories }: ProductsClientPr
         )
       } else {
         alert(res.error || "Failed to update product status.")
+      }
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setActionLoadingId(null)
+    }
+  }
+
+  const handleDelete = async (productId: string) => {
+    setActionLoadingId(productId)
+    try {
+      const res = await deleteProductAction(productId)
+      if (res.success) {
+        setProducts((prev) => prev.filter((p) => p.id !== productId))
+        setDeleteConfirmId(null)
+      } else {
+        alert(res.error || "Failed to delete product.")
       }
     } catch (err) {
       console.error(err)
@@ -490,16 +509,59 @@ export function ProductsClient({ initialProducts, categories }: ProductsClientPr
                     </button>
                   </td>
                   <td className="p-4 text-right">
-                    <button
-                      onClick={() => openEditForm(product)}
-                      className={buttonVariants({
-                        variant: "ghost",
-                        size: "icon-sm",
-                        className: "text-slate-400 hover:text-white cursor-pointer",
-                      })}
-                    >
-                      <Edit className="size-4" />
-                    </button>
+                    {deleteConfirmId === product.id ? (
+                      <div className="inline-flex items-center gap-2">
+                        <span className="text-[10px] text-rose-400 font-semibold">Delete?</span>
+                        <button
+                          onClick={() => handleDelete(product.id)}
+                          disabled={actionLoadingId === product.id}
+                          className={buttonVariants({
+                            variant: "ghost",
+                            size: "icon-sm",
+                            className: "text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 cursor-pointer",
+                          })}
+                        >
+                          {actionLoadingId === product.id ? (
+                            <Loader2 className="size-4 animate-spin" />
+                          ) : (
+                            <Check className="size-4" />
+                          )}
+                        </button>
+                        <button
+                          onClick={() => setDeleteConfirmId(null)}
+                          className={buttonVariants({
+                            variant: "ghost",
+                            size: "icon-sm",
+                            className: "text-slate-400 hover:text-white cursor-pointer",
+                          })}
+                        >
+                          <X className="size-4" />
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="inline-flex items-center gap-1">
+                        <button
+                          onClick={() => openEditForm(product)}
+                          className={buttonVariants({
+                            variant: "ghost",
+                            size: "icon-sm",
+                            className: "text-slate-400 hover:text-white cursor-pointer",
+                          })}
+                        >
+                          <Edit className="size-4" />
+                        </button>
+                        <button
+                          onClick={() => setDeleteConfirmId(product.id)}
+                          className={buttonVariants({
+                            variant: "ghost",
+                            size: "icon-sm",
+                            className: "text-slate-400 hover:text-rose-400 cursor-pointer",
+                          })}
+                        >
+                          <Trash className="size-4" />
+                        </button>
+                      </div>
+                    )}
                   </td>
                 </tr>
               ))}

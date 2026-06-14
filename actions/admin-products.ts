@@ -159,3 +159,37 @@ export async function toggleProductActiveAction(productId: string, is_active: bo
     return { success: false, error: "An unexpected server error occurred." }
   }
 }
+
+export async function deleteProductAction(productId: string) {
+  if (!productId) return { success: false, error: "Invalid product ID." }
+
+  if (!isSupabaseConfigured()) {
+    console.log("Supabase unconfigured. Simulating product deletion:", productId)
+    return { success: true }
+  }
+
+  try {
+    const supabase = await createClient()
+    const isAdmin = await verifyAdmin(supabase)
+    if (!isAdmin) {
+      return { success: false, error: "Unauthorized access. Admins only." }
+    }
+
+    const { error } = await supabase
+      .from("products")
+      .delete()
+      .eq("id", productId)
+
+    if (error) {
+      console.error("Error deleting product:", error)
+      return { success: false, error: "Failed to delete product from database." }
+    }
+
+    revalidatePath("/catalog")
+    revalidatePath("/admin/products")
+    return { success: true }
+  } catch (err) {
+    console.error("deleteProductAction error:", err)
+    return { success: false, error: "An unexpected server error occurred." }
+  }
+}
