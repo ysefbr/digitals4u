@@ -1,10 +1,11 @@
 "use client"
 
 import * as React from "react"
-import { updateOrderStatusAction, deliverCredentialsAction } from "@/actions/admin-orders"
+import { updateOrderStatusAction, deliverCredentialsAction, deleteOrderAction } from "@/actions/admin-orders"
 import { formatCurrency } from "@/lib/data"
 import { buttonVariants } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
 import {
   MessageSquare,
   Lock,
@@ -17,18 +18,39 @@ import {
   Loader2,
   AlertCircle,
   ChevronRight,
+  ChevronLeft,
+  Trash,
+  Search,
 } from "lucide-react"
+import { useRouter, usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 
 interface OrdersClientProps {
   initialOrders: any[]
+  currentPage: number
+  totalPages: number
+  initialSearch: string
+  initialStatus: string
 }
 
-export function OrdersClient({ initialOrders }: OrdersClientProps) {
+export function OrdersClient({
+  initialOrders,
+  currentPage,
+  totalPages,
+  initialSearch,
+  initialStatus,
+}: OrdersClientProps) {
+  const router = useRouter()
+  const pathname = usePathname()
+  
+  const [search, setSearch] = React.useState(initialSearch)
+  const [filterStatus, setFilterStatus] = React.useState(initialStatus)
+
   const [orders, setProducts] = React.useState<any[]>(initialOrders)
   const [selectedOrder, setSelectedOrder] = React.useState<any | null>(initialOrders[0] || null)
   const [loading, setLoading] = React.useState(false)
   const [error, setError] = React.useState<string | null>(null)
+  const [deleteConfirmId, setDeleteConfirmId] = React.useState<string | null>(null)
   
   // Delivery form state
   const [showDeliveryForm, setShowDeliveryForm] = React.useState(false)
@@ -40,6 +62,25 @@ export function OrdersClient({ initialOrders }: OrdersClientProps) {
       setSelectedOrder(initialOrders[0])
     }
   }, [initialOrders])
+
+  // Update URL on search/filter change with simple debounce
+  React.useEffect(() => {
+    const handler = setTimeout(() => {
+      const params = new URLSearchParams()
+      if (search) params.set("q", search)
+      if (filterStatus) params.set("status", filterStatus)
+      // Reset to page 1 on new search/filter
+      if (search !== initialSearch || filterStatus !== initialStatus) {
+        params.set("page", "1")
+      } else {
+        params.set("page", currentPage.toString())
+      }
+      
+      router.push(`${pathname}?${params.toString()}`)
+    }, 400)
+
+    return () => clearTimeout(handler)
+  }, [search, filterStatus, router, pathname])
 
   const handleStatusChange = async (orderId: string, status: string) => {
     setLoading(true)
@@ -89,6 +130,28 @@ export function OrdersClient({ initialOrders }: OrdersClientProps) {
     }
   }
 
+  const handleDeleteOrder = async () => {
+    if (!selectedOrder) return
+
+    setLoading(true)
+    setError(null)
+    try {
+      const res = await deleteOrderAction(selectedOrder.id)
+      if (res.success) {
+        setProducts((prev) => prev.filter((o) => o.id !== selectedOrder.id))
+        setSelectedOrder(null)
+        setDeleteConfirmId(null)
+      } else {
+        setError(res.error || "Failed to delete order.")
+      }
+    } catch (err) {
+      console.error(err)
+      setError("An unexpected error occurred.")
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "Pending Confirmation":
@@ -126,9 +189,37 @@ export function OrdersClient({ initialOrders }: OrdersClientProps) {
           </p>
         </div>
 
+        {/* Search & Filter Bar */}
+        <div className="flex flex-col sm:flex-row gap-4 items-center bg-card/15 p-4 rounded-2xl border border-border backdrop-blur-md">
+          <div className="relative w-full sm:flex-1">
+            <Search className="absolute left-3 top-3 size-4 text-muted-foreground pointer-events-none" />
+            <Input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search by ID, name, or email..."
+              className="pl-9 bg-background/50 border-border h-10 rounded-xl w-full text-sm"
+            />
+          </div>
+          <div className="w-full sm:w-64">
+            <select
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+              className="w-full bg-background/50 border border-border text-sm rounded-xl h-10 px-3 outline-none focus:border-ring text-white"
+            >
+              <option value="">All Statuses</option>
+              <option value="Pending Confirmation">Pending Confirmation</option>
+              <option value="Waiting for Payment">Waiting for Payment</option>
+              <option value="Paid">Paid</option>
+              <option value="Processing">Processing</option>
+              <option value="Delivered">Delivered</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+          </div>
+        </div>
+
         {orders.length === 0 ? (
           <div className="p-8 text-center rounded-2xl border border-border bg-card/10 text-xs text-muted-foreground">
-            No orders submitted yet.
+            No orders found matching your criteria.
           </div>
         ) : (
           <div className="rounded-2xl border border-border bg-card/15 overflow-hidden backdrop-blur-md">
@@ -186,6 +277,47 @@ export function OrdersClient({ initialOrders }: OrdersClientProps) {
                   ))}
                 </tbody>
               </table>
+            </div>
+          </div>
+        )}
+
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-between pt-4">
+            <div className="text-xs text-muted-foreground">
+              Page {currentPage} of {totalPages}
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => {
+                  const params = new URLSearchParams(window.location.search)
+                  params.set("page", (currentPage - 1).toString())
+                  router.push(`${pathname}?${params.toString()}`)
+                }}
+                disabled={currentPage <= 1}
+                className={buttonVariants({
+                  variant: "outline",
+                  size: "sm",
+                  className: "border-border cursor-pointer disabled:opacity-50",
+                })}
+              >
+                <ChevronLeft className="size-4 mr-1" /> Previous
+              </button>
+              <button
+                onClick={() => {
+                  const params = new URLSearchParams(window.location.search)
+                  params.set("page", (currentPage + 1).toString())
+                  router.push(`${pathname}?${params.toString()}`)
+                }}
+                disabled={currentPage >= totalPages}
+                className={buttonVariants({
+                  variant: "outline",
+                  size: "sm",
+                  className: "border-border cursor-pointer disabled:opacity-50",
+                })}
+              >
+                Next <ChevronRight className="size-4 ml-1" />
+              </button>
             </div>
           </div>
         )}
@@ -356,6 +488,47 @@ export function OrdersClient({ initialOrders }: OrdersClientProps) {
                     <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs flex items-center justify-center gap-1.5 font-bold">
                       <XCircle className="size-4" /> Order Cancelled
                     </div>
+                  )}
+
+                  {deleteConfirmId === selectedOrder.id ? (
+                    <div className="p-3 rounded-xl border border-destructive/20 bg-destructive/10 space-y-3 mt-4">
+                      <span className="text-destructive text-xs font-bold block text-center">
+                        Are you sure you want to permanently delete this order?
+                      </span>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={handleDeleteOrder}
+                          disabled={loading}
+                          className={buttonVariants({
+                            variant: "destructive",
+                            className: "flex-1 justify-center text-xs h-8 cursor-pointer",
+                          })}
+                        >
+                          {loading ? <Loader2 className="size-3 animate-spin" /> : "Yes, Delete"}
+                        </button>
+                        <button
+                          onClick={() => setDeleteConfirmId(null)}
+                          disabled={loading}
+                          className={buttonVariants({
+                            variant: "outline",
+                            className: "flex-1 justify-center text-xs h-8 border-border text-foreground hover:bg-muted cursor-pointer",
+                          })}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => setDeleteConfirmId(selectedOrder.id)}
+                      disabled={loading}
+                      className={buttonVariants({
+                        variant: "ghost",
+                        className: "w-full justify-center text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 mt-4 text-xs cursor-pointer",
+                      })}
+                    >
+                      <Trash className="size-3.5 mr-1.5" /> Delete Order Permanently
+                    </button>
                   )}
                 </div>
               )}

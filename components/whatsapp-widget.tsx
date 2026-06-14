@@ -22,8 +22,8 @@ export function WhatsAppWidget({ phone, siteName = "DigitalServices4U" }: WhatsA
     return () => clearTimeout(timer)
   }, [])
 
-  // Hide the widget entirely on admin paths
-  if (pathname?.startsWith("/admin") || isDismissed) {
+  // Show the widget entirely on the main page
+  if (pathname !== "/" || isDismissed) {
     return null
   }
 

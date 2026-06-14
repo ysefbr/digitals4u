@@ -177,3 +177,39 @@ export async function deliverCredentialsAction(orderId: string, credentialsText:
     return { success: false, error: "An unexpected server error occurred." }
   }
 }
+
+export async function deleteOrderAction(orderId: string) {
+  if (!orderId) {
+    return { success: false, error: "Invalid order ID." }
+  }
+
+  if (!isSupabaseConfigured()) {
+    console.log("Supabase unconfigured. Simulating order deletion:", orderId)
+    return { success: true }
+  }
+
+  try {
+    const supabase = await createClient()
+    const isAdmin = await verifyAdmin(supabase)
+    if (!isAdmin) {
+      return { success: false, error: "Unauthorized access. Admins only." }
+    }
+
+    const { error } = await supabase
+      .from("orders")
+      .delete()
+      .eq("id", orderId)
+
+    if (error) {
+      console.error("Error deleting order:", error)
+      return { success: false, error: "Failed to delete order from database." }
+    }
+
+    revalidatePath("/portal")
+    revalidatePath("/admin/orders")
+    return { success: true }
+  } catch (err) {
+    console.error("deleteOrderAction error:", err)
+    return { success: false, error: "An unexpected server error occurred." }
+  }
+}

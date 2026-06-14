@@ -23,15 +23,36 @@ import {
   Eye,
   EyeOff,
   Image as ImageIcon,
+  Search,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react"
+import { useRouter, usePathname } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
 
 interface ProductsClientProps {
   initialProducts: any[]
   categories: any[]
+  currentPage: number
+  totalPages: number
+  initialSearch: string
+  initialCategory: string
 }
 
-export function ProductsClient({ initialProducts, categories }: ProductsClientProps) {
+export function ProductsClient({
+  initialProducts,
+  categories,
+  currentPage,
+  totalPages,
+  initialSearch,
+  initialCategory,
+}: ProductsClientProps) {
+  const router = useRouter()
+  const pathname = usePathname()
+  
+  const [search, setSearch] = React.useState(initialSearch)
+  const [filterCategory, setFilterCategory] = React.useState(initialCategory)
+  
   const [products, setProducts] = React.useState<any[]>(initialProducts)
   const [loading, setLoading] = React.useState(false)
   const [actionLoadingId, setActionLoadingId] = React.useState<string | null>(null)
@@ -52,10 +73,31 @@ export function ProductsClient({ initialProducts, categories }: ProductsClientPr
   const [imageFile, setImageFile] = React.useState<File | null>(null)
   const [imageUrl, setImageUrl] = React.useState("")
   const [uploadingImage, setUploadingImage] = React.useState(false)
+  const [badge, setBadge] = React.useState("")
+  const [features, setFeatures] = React.useState<string[]>([""])
 
   React.useEffect(() => {
     setProducts(initialProducts)
   }, [initialProducts])
+
+  // Update URL on search/filter change with simple debounce
+  React.useEffect(() => {
+    const handler = setTimeout(() => {
+      const params = new URLSearchParams()
+      if (search) params.set("q", search)
+      if (filterCategory) params.set("category", filterCategory)
+      // Reset to page 1 on new search/filter
+      if (search !== initialSearch || filterCategory !== initialCategory) {
+        params.set("page", "1")
+      } else {
+        params.set("page", currentPage.toString())
+      }
+      
+      router.push(`${pathname}?${params.toString()}`)
+    }, 400)
+
+    return () => clearTimeout(handler)
+  }, [search, filterCategory, router, pathname])
 
   const openCreateForm = () => {
     setEditId(null)
@@ -67,6 +109,8 @@ export function ProductsClient({ initialProducts, categories }: ProductsClientPr
     setIsActive(true)
     setImageFile(null)
     setImageUrl("")
+    setBadge("")
+    setFeatures([""])
     setError(null)
     setIsOpen(true)
   }
@@ -81,6 +125,8 @@ export function ProductsClient({ initialProducts, categories }: ProductsClientPr
     setIsActive(product.is_active)
     setImageFile(null)
     setImageUrl(product.image || "")
+    setBadge(product.badge || "")
+    setFeatures(product.features && product.features.length > 0 ? product.features : [""])
     setError(null)
     setIsOpen(true)
   }
@@ -168,6 +214,9 @@ export function ProductsClient({ initialProducts, categories }: ProductsClientPr
         setUploadingImage(false)
       }
 
+      const cleanedFeatures = features.filter((f) => f.trim() !== "")
+      const finalBadge = badge.trim() || undefined
+
       if (editId) {
         // Edit Action
         const res = await updateProductAction(editId, {
@@ -178,6 +227,8 @@ export function ProductsClient({ initialProducts, categories }: ProductsClientPr
           category_id: categoryId || undefined,
           is_active: isActive,
           image: finalImageUrl,
+          badge: finalBadge,
+          features: cleanedFeatures,
         })
 
         if (res.success) {
@@ -196,6 +247,8 @@ export function ProductsClient({ initialProducts, categories }: ProductsClientPr
                     category: { name: updatedCategoryName },
                     is_active: isActive,
                     image: finalImageUrl,
+                    badge: finalBadge,
+                    features: cleanedFeatures,
                   }
                 : p
             )
@@ -214,6 +267,8 @@ export function ProductsClient({ initialProducts, categories }: ProductsClientPr
           category_id: categoryId || undefined,
           is_active: isActive,
           image: finalImageUrl,
+          badge: finalBadge,
+          features: cleanedFeatures,
         })
 
         if (res.success) {
@@ -250,6 +305,33 @@ export function ProductsClient({ initialProducts, categories }: ProductsClientPr
         >
           <Plus className="size-4" /> Add Product
         </button>
+      </div>
+
+      {/* Search & Filter Bar */}
+      <div className="flex flex-col sm:flex-row gap-4 items-center bg-card/15 p-4 rounded-2xl border border-border backdrop-blur-md">
+        <div className="relative w-full sm:flex-1">
+          <Search className="absolute left-3 top-3 size-4 text-muted-foreground pointer-events-none" />
+          <Input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search products..."
+            className="pl-9 bg-background/50 border-border h-10 rounded-xl w-full text-sm"
+          />
+        </div>
+        <div className="w-full sm:w-64">
+          <select
+            value={filterCategory}
+            onChange={(e) => setFilterCategory(e.target.value)}
+            className="w-full bg-background/50 border border-border text-sm rounded-xl h-10 px-3 outline-none focus:border-ring text-white"
+          >
+            <option value="">All Categories</option>
+            {categories.map((cat) => (
+              <option key={cat.id} value={cat.id}>
+                {cat.name}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       {/* Editor Modal Drawer */}
@@ -304,6 +386,58 @@ export function ProductsClient({ initialProducts, categories }: ProductsClientPr
                 placeholder="Write a clear account subscription summary..."
                 required
                 className="w-full bg-background border border-border text-sm rounded-xl p-3 outline-none focus:border-ring focus:ring-1 focus:ring-ring text-white resize-none"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-white text-xs font-semibold">
+                Features (What's included)
+              </Label>
+              <div className="space-y-2">
+                {features.map((feature, idx) => (
+                  <div key={idx} className="flex items-center gap-2">
+                    <Input
+                      value={feature}
+                      onChange={(e) => {
+                        const newFeatures = [...features]
+                        newFeatures[idx] = e.target.value
+                        setFeatures(newFeatures)
+                      }}
+                      placeholder={`Feature ${idx + 1} (e.g. 4K Ultra HD)`}
+                      className="bg-background border-border text-sm h-10 rounded-xl flex-1"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const newFeatures = features.filter((_, i) => i !== idx)
+                        setFeatures(newFeatures.length ? newFeatures : [""])
+                      }}
+                      className="size-10 shrink-0 bg-destructive/10 text-destructive rounded-xl flex items-center justify-center hover:bg-destructive/20 transition-colors"
+                    >
+                      <X className="size-4" />
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => setFeatures([...features, ""])}
+                  className="text-xs text-primary hover:text-primary/80 font-semibold flex items-center gap-1 mt-1 cursor-pointer"
+                >
+                  <Plus className="size-3" /> Add Feature
+                </button>
+              </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <Label htmlFor="badge" className="text-white text-xs font-semibold">
+                Badge (Optional)
+              </Label>
+              <Input
+                id="badge"
+                value={badge}
+                onChange={(e) => setBadge(e.target.value)}
+                placeholder="e.g. Popular, New, Sale"
+                className="bg-background border-border text-sm h-10 rounded-xl"
               />
             </div>
 
@@ -569,6 +703,47 @@ export function ProductsClient({ initialProducts, categories }: ProductsClientPr
           </table>
         </div>
       </div>
+
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-between pt-4">
+          <div className="text-xs text-muted-foreground">
+            Page {currentPage} of {totalPages}
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => {
+                const params = new URLSearchParams(window.location.search)
+                params.set("page", (currentPage - 1).toString())
+                router.push(`${pathname}?${params.toString()}`)
+              }}
+              disabled={currentPage <= 1}
+              className={buttonVariants({
+                variant: "outline",
+                size: "sm",
+                className: "border-border cursor-pointer disabled:opacity-50",
+              })}
+            >
+              <ChevronLeft className="size-4 mr-1" /> Previous
+            </button>
+            <button
+              onClick={() => {
+                const params = new URLSearchParams(window.location.search)
+                params.set("page", (currentPage + 1).toString())
+                router.push(`${pathname}?${params.toString()}`)
+              }}
+              disabled={currentPage >= totalPages}
+              className={buttonVariants({
+                variant: "outline",
+                size: "sm",
+                className: "border-border cursor-pointer disabled:opacity-50",
+              })}
+            >
+              Next <ChevronRight className="size-4 ml-1" />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
