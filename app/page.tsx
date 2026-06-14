@@ -116,7 +116,7 @@ export default async function Home() {
 
             {/* Headline */}
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-[family-name:var(--font-heading)] font-bold tracking-tight leading-[1.1]">
-              Premium{" "}
+              Unlock Premium{" "}
               <br className="hidden sm:inline" />
               <span className="text-blue-gradient">
                 Digital Services
